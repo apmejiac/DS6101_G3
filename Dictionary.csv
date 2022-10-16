@@ -1,0 +1,219 @@
+﻿Instrument Q #,Variable,Description,,Question Wording
+D1,TBIRTH_YEAR,Description,Year of birth,What year were you born? Please enter a number.
+,,Values,1934-2004,
+,,Universe,All persons born before 2004,
+,,Internal Notes,Topcoded 1934-2004,
+Recode of D2,RHISPANIC,Description,Hispanic origin,"Are you of Hispanic, Latino, or Spanish origin? - Selected Choice"
+,,Values,"1) No, not of Hispanic, Latino, or Spanish origin  
+2) Yes, of Hispanic, Latino, or Spanish origin",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+Recode of D3,RRACE,Description,Race,What is your race? Please select all that apply. - Selected Choice
+,,Values,"1) White, Alone
+2) Black, Alone
+3) Asian, Alone
+4) Any other race alone, or race in combination",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+D4,EEDUC,Description,Educational attainment,"What is the highest
+degree or level of school you have completed? Select
+only one answer."
+,,Values,"1) Less than high school
+2) Some high school
+3) High school graduate or equivalent (for example GED)
+4) Some college, but degree not received or is in progress
+5) Associate’s degree (for example AA, AS)
+6) Bachelor's degree (for example BA, BS, AB)
+7) Graduate degree (for example master's, professional, doctorate)",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+D6,EGENID_BIRTH,Description,Gender at birth,"What sex were you assigned at birth, on your original birth certificate?"
+,,Values,"1) Male 
+2) Female",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+D10,THHLD_NUMPER,Description,Total number of people in household,"How many total people – adults and children
+– currently live in your household, including yourself? Please enter a number."
+,,Values,(1-40) number of people (whole number),
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+EMP1,WRKLOSSRV,Description,Recent household job loss,"Now we are going to ask about your employment. 
+
+Have you, or has anyone in your household experienced a loss of employment income in the last 4 weeks?  Select only one answer. "
+,,Values,"1) Yes
+2) No
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+EMP2,ANYWORK,Description,Employment status for last 7 days,"Now we are going to ask about your employment.
+In the last 7 days, did you do ANY work for either pay or profit? Select only one answer."
+,,Values,"1) Yes
+2) No
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+EMP3,KINDWORK,Description,Sector of employment,"Are you employed by government, by a private company, a nonprofit organization or are you self-employed or working in a family business? Select only one answer."
+,,Values,"1) Government
+2) Private company
+3) Non-profit organization including tax exempt and charitable organizations
+4) Self-employed
+5) Working in a family business
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,ANYWORK = 1,
+,,Internal Notes,,
+EMP4,RSNNOWRKRV,Description,Main reason for not working for pay or profit,"What is your main reason for not working for pay or profit?
+Select only one answer. - Selected Choice"
+,,Values,"1) I did not want to be employed at this time
+2)I am/was sick with coronavirus symptoms or caring for someone who was sick with coronavirus symptoms
+3) I am/was caring for children not in school or daycare
+4) I am/was caring for an elderly person
+5) I was concerned about getting or spreading the coronavirus 
+6) I am/was sick (not coronavirus related) or disabled
+7) I am retired
+8) I am/was laid off or furloughed due to coronavirus pandemic
+9) My employer closed temporarily due to the coronavirus pandemic
+10) My employer went out of business due to the coronavirus pandemic
+11) I do/did not have transportation to work
+12) Other reason, please specify
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,ANYWORK = 2,
+,,Internal Notes,,
+EMPUI1,UI_APPLYRV,Description,UI Applied,"Since June 1, 2022, have you applied for Unemployment Insurance (UI) benefits? Select only one answer."
+,,Values,"1) Yes
+2) No
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+EMPUI2,UI_RECVRV,Description,UI Receive,"Since June 1, 2022, have you received Unemployment Insurance (UI) benefits? Select only one answer. "
+,,Values,"1) Yes
+2) No
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+EMPUI3,UI_RECVNOW,Description,UI Receive  Now,Have you received Unemployment Insurance (UI) benefits in the last 7 days?
+,,Values,"1) Yes
+2) No
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,UI_RECVRV = 1,
+,,Internal Notes,,
+SPN6,SPND_SRCRV1,Description,Sources of income and funds for spending needs,"Thinking about your experience in the last 7 days, which of the following did you or your household members use to meet your spending needs?  Select all that apply."
+,,Values,"1) Regular income sources like those received before the pandemic
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+SPN6,SPND_SRCRV2,Description,Sources of income and funds for spending needs,"Thinking about your experience in the last 7 days, which of the following did you or your household members use to meet your spending needs?  Select all that apply."
+,,Values,"1) Credit cards or loans
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+SPN6,SPND_SRCRV3,Description,Sources of income and funds for spending needs,"Thinking about your experience in the last 7 days, which of the following did you or your household members use to meet your spending needs?  Select all that apply."
+,,Values,"1) Money from savings or selling assets or possessions (including withdrawals from retirement accounts) 
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+SPN6,SPND_SRCRV4,Description,Sources of income and funds for spending needs,"Thinking about your experience in the last 7 days, which of the following did you or your household members use to meet your spending needs?  Select all that apply."
+,,Values,"1) Borrowing from friends or family
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+SPN6,SPND_SRCRV5,Description,Sources of income and funds for spending needs,"Thinking about your experience in the last 7 days, which of the following did you or your household members use to meet your spending needs?  Select all that apply."
+,,Values,"1) Unemployment insurance (UI) benefit payments
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+HSE1,TENURE,Description,Housing owned or rented,Is your house or apartment…? Select only one answer.
+,,Values,"1) Owned by you or someone in this household free and clear?
+2) Owned by your or someone in this household with a mortgage or loan (including home equity loans)?
+3) Rented?
+4) Occupied without payment of rent?
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+INC1,INCOME,Description,Total household income (before taxes),In 2021 what was your total household income before taxes? Select only one answer.
+,,Values,"1) Less than $25,000  
+2) $25,000 - $34,999  
+3) $35,000 - $49,999   
+4) $50,000 - $74,999   
+5) $75,000 - $99,999   
+6) $100,000 - $149,999   
+7) $150,000 - $199,999
+8) $200,000 and above
+-99) Question seen but category not selected
+-88) Missing / Did not report",
+,,Universe,All persons born before 2004,
+,,Internal Notes,,
+-,EST_ST,Description,State,
+,,Values,"                    '01'='Alabama'
+                    '02'='Alaska'
+                    '04'='Arizona'
+                    '05'='Arkansas'
+                    '06'='California'
+                    '08'='Colorado'
+                    '09'='Connecticut'
+                    '10'='Delaware'
+                    '11'='District of Columbia'
+                    '12'='Florida'
+                    '13'='Georgia'
+                    '15'='Hawaii'
+                    '16'='Idaho'
+                    '17'='Illinois'
+                    '18'='Indiana'
+                    '19'='Iowa'
+                    '20'='Kansas'
+                    '21'='Kentucky'
+                    '22'='Louisiana'
+                    '23'='Maine'
+                    '24'='Maryland'
+                    '25'='Massachusetts'
+                    '26'='Michigan'
+                    '27'='Minnesota'
+                    '28'='Mississippi'
+                    '29'='Missouri'
+                    '30'='Montana'
+                    '31'='Nebraska'
+                    '32'='Nevada'
+                    '33'='New Hampshire'
+                    '34'='New Jersey'
+                    '35'='New Mexico'
+                    '36'='New York'
+                    '37'='North Carolina'
+                    '38'='North Dakota'
+                    '39'='Ohio'
+                    '40'='Oklahoma'
+                    '41'='Oregon'
+                    '42'='Pennsylvania'
+                    '44'='Rhode Island'
+                    '45'='South Carolina'
+                    '46'='South Dakota'
+                    '47'='Tennessee'
+                    '48'='Texas'
+                    '49'='Utah'
+                    '50'='Vermont'
+                    '51'='Virginia'
+                    '53'='Washington'
+                    '54'='West Virginia'
+                    '55'='Wisconsin'
+                    '56'='Wyoming'",
+,,Universe,,
+,,Internal Notes,,
+-,SCRAM,Description,Record identifier,-
+,,Values,Varying,
+,,Universe,All persons,
+,,Internal Notes,Unique record ID for linking replicate weights. Was also used for longitudinal linking for cycles 1-12. ,
+-,WEEK,Description,Week of interview,-
+,,Values,49,
+,,Universe,All persons,
+,,Internal Notes,,
