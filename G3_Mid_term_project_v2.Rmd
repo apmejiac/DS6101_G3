@@ -23,12 +23,10 @@ output:
 ```{r init, include=F}
 # Housekeeping
 #rm(list = ls())
-# The package "panelr" was included in order to get sumamry statistics in using panel data
-#tinytex::install_tinytex()
-library(ezids)
-library(plot3D)
-library(tinytex)
 
+
+# Packages needed
+#tinytex::install_tinytex()
 #install.packages("dplyr")      
 #install.packages("plyr")       
 #install.packages("readr")   
@@ -37,12 +35,37 @@ library(tinytex)
 #install.packages("panelr")
 #install.packages("lubridate")
 #install.packages("eeptools")
-library(eeptools)
+#install.packages('xtable')
+#install.packages('plm')
+#install.packages('tseries')
+#install.packages('dynlm')
+#install.packages('vars')
+#install.packages('broom')
+#install.packages('stargazer')
+#install.packages('lmtests')
+#install.packages("kableExtra")
+#install.packages('plotly')
+library(plotly)
+library(kableExtra)
 library(skimr)
 library(panelr)
+library(knitr)
+library(stargazer)
 library(dplyr)
 library(readr)
 library(lubridate)
+library(xtable)
+library(plm) 
+library(corrplot)
+library(tidyverse)
+library(tseries) # for `adf.test()`
+library(dynlm) #for function `dynlm()`
+library(vars) # for function `VAR()`
+library(lmtest) #for `coeftest()` and `bptest()`.
+library(broom) #for `glance(`) and `tidy()`
+library(ezids)
+library(plot3D)
+library(tinytex)
 ```
 
 
@@ -66,6 +89,13 @@ institutions. The 2020 recession caused by the COVID-19 Pandemic was of a differ
 While necessary for many to keep afloat during the economic crises, a potential drawback of this policy is that workers may be disincentivized to work. If the benefit level is sufficiently high, returning to work may pay less money than remaining on unemployment insurance. A rational actor would see this and decide to stay on unemployment insurance and not return to the workforce. We seek to explore this topic and examine if workers were disincentivized to return to work. See photo:  
  ![Unemployment Insurance](C:/Users/apmej/OneDrive/Escritorio/R/UI_image.jpeg)
 
+## Why Panel Data is relevant?
+
+
+
+
+
+
 
 ## About the data
 
@@ -73,223 +103,241 @@ The weekly Census Household Pulse Survey, which collects data from an average of
 https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html. The main reasons we used this data includes: .........
 
 
-
-
-
-
-
-
-
-
 Let us now merge and use the big data dataset using R.
 
 
-```{r init_data}
 
+
+
+
+
+```{r init_data}
+#### Cleaning the data####
 # Setting working directory
 setwd('C:\\Users\\apmej\\OneDrive\\Escritorio\\R\\Data\\')
 
 #import and merge all CSV files into one data frame
 
-df_panel <- list.files(path='C:/Users/apmej/OneDrive/Escritorio/R/Data') %>% 
+df_panel <- list.files(path='C:\\Users\\apmej\\OneDrive\\Escritorio\\R\\Data\\') %>% 
   lapply(read_csv) %>% 
   bind_rows 
 
-# remove additional unnecesary rows
+# remove additional unnecessary rows
 df_panel<- df_panel[ -c(27:50) ]
 df_panel<- df_panel[ -c(5:6) ]
 df_panel<- df_panel[ -c(1) ]
 df_panel<- df_panel[ -c(24:25) ]
 
 #creating the panel
+
 df_panel<- panel_data(df_panel, id = SCRAM, wave = WEEK)
 
-
-
-
 #renaming columns
-#colnames(df_panel)[1:20]=c("ID","Week","State","Age","Hispanic","Other_race","Edu","Sex","p_hh","wrklossrv", 'anywork','kindwork','rsnnowrkrv','UI_apply', 'UI_recrv','UI_recvnow','house', 'income','SPND1, )
+colnames(df_panel)[1:20]=c("ID","Week","State","Age","Hispanic","Other_race","Edu","Sex","p_hh","wrklossrv", 'anywork','kindwork','rsnnowrkrv','UI_apply', 'UI_recrv','UI_recvnow','house', 'income','SPND1','SPND2','SPND3','SPND4','SPND5' )
 head(df_panel)
 
-#as_date(df_panel$Age, origin = lubridate::origin)
-#age_calc(df_panel$Age, enddate = Sys.Date(), units = "years", precise = TRUE)
-#df_panel$TBIRTH_YEAR = as.numeric(difftime(Sys.Date(),df_panel$TBIRTH_YEAR))
+#Changing birth year to age
+df_panel$Age <- 2022-df_panel$Age
 
-#str(df_panel)
-#df_panel$new_Age <- strptime(x, format = "%Y%m%d") 
-#df_panel$x_date2 <-  
-#summary(df_panel)
-#skim(df_panel)
-#panel.hist(df_panel$RHISPANIC, col.bar = "gray")
-#panel.histogram(,
-#                breaks =20,
-#                equal.widths = TRUE,
-#                type = "density",
-#                identifier = "histogram")
+#Changing -99 and -88 for NAs
+df_panel <- df_panel %>% dplyr::na_if(-99)
+df_panel <- df_panel %>% dplyr::na_if(-88)
+
+#Reconverting to panel data
+df_panel2<- panel_data(df_panel, id = ID, wave = Week)
+df_panel2
+
+# removing NA's from ID column in dataframe
+
+df_panel2<-df_panel2[!is.na(df_panel2$ID),]
+
+# Changing state names 
+rep_str_state = c('1'='Alabama',
+                  '2'='Alaska',
+                  '4'='Arizona',
+                  '5'='Arkansas',
+                  '6'='California',
+                  '8'='Colorado',
+                  '9'='Connecticut',
+                  '10'='Delaware',
+                  '11'='District of Columbia',
+                  '12'='Florida',
+                  '13'='Georgia',
+                  '15'='Hawaii',
+                  '16'='Idaho',
+                  '17'='Illinois',
+                  '18'='Indiana',
+                  '19'='Iowa',
+                  '20'='Kansas',
+                  '21'='Kentucky',
+                  '22'='Louisiana',
+                  '23'='Maine',
+                  '24'='Maryland',
+                  '25'='Massachusetts',
+                  '26'='Michigan',
+                  '27'='Minnesota',
+                  '28'='Mississippi',
+                  '29'='Missouri',
+                  '30'='Montana',
+                  '31'='Nebraska',
+                  '32'='Nevada',
+                  '33'='New Hampshire',
+                  '34'='New Jersey',
+                  '35'='New Mexico',
+                  '36'='New York',
+                  '37'='North Carolina',
+                  '38'='North Dakota',
+                  '39'='Ohio',
+                  '40'='Oklahoma',
+                  '41'='Oregon',
+                  '42'='Pennsylvania',
+                  '44'='Rhode Island',
+                  '45'='South Carolina',
+                  '46'='South Dakota',
+                  '47'='Tennessee',
+                  '48'='Texas',
+                  '49'='Utah',
+                  '50'='Vermont',
+                  '51'='Virginia',
+                  '53'='Washington',
+                  '54'='West Virginia',
+                  '55'='Wisconsin',
+                  '56'='Wyoming')
+
+
+df_panel2$State<- str_replace_all(df_panel2$State,rep_str_state)
+
+#Adding mean replacement rate column by state and week
+
+#*** Pending****#
+
+
+
+
+
+#Sub-setting the data sample based to remove persons with an income greater than      and that haven't been unemployed
+
+#*** Nina please add based on our discussion today, overright it on df_panel2 so that the next lines of code can still work"
+
 
 
 
 ```
 
-So there are `  ` data points in our dataset. (Notice the use of inline R codes here.)
 
 ## Exploratory Data Analysis (EDA)
 
-Mention what type of variables are going to be evaluated and why
+Mention if our data set is a panel balanced or unbalanced, the number of unique IDs, the number of variables includes, what type of variables are going to be evaluated and why and the summary statistics
 
 
+```{r, results='asis'}
+#Checking the type of panel balanced or unbalanced
+pdim(df_panel2)
 
+# Amount of unique values
+length(unique(df_panel2$ID))
 
-### Basic statistics
-```{r EDA_basicstats, results='asis'}
-#str(df_panel)
-#summary(df_panel)
-#skim(df_panel)
-```
+#Checking panel structure
+str(df_panel2)
 
-What can we get from the data?
-
-```{r EDA_rerun, results="asis"}
-
-## rerun when we have corrected data
-
-
-
-```
-
-### Tests (Correlation, ANOVA, ...)
-Which test are we doing an why?
-
-```{r corr, echo=T, message=F}
-#Run test and plot
-
-#loadPkg("corrplot")
-#corrmatrix = cor(kfcw)  # more detailed pair-wise correlation test can be obtained from cor.test(kfcw$wing,kfcw$price) etc
-#corrplot.mixed(corrmatrix, 
-#               title="Correlation Matrix for Chicken Meal Price",
-#               mar=c(0,0,1,0) # fixes the position of title
-#               )
-```
-
-What we found?
-
-### Normality check/test
-what we found?
-
-#### QQ-plot
-Why we are using this method
-```{r normality_qqplot, echo=T}
-#qnorm(kfcw$price, main = "Price Q-Q Plot", ylab="Price Quantiles ($)") 
-#qline(kfcw$price)
-#qnorm(kfcw$wing, main = "Wing Q-Q Plot", ylab="Wing-count Quantiles") 
-#qline(kfcw$wing)
-#qnorm(kfcw$drum, main = "Drum Q-Q Plot", ylab="Drum-count Quantiles") 
-#qline(kfcw$drum)
-```
-
-what we found
-#### Boxplot
-WHy?
-```{r normality_boxplot, echo=T}
-# We will learn to use the more powerful ggplot soon, instead of this generic boxplot function
-#boxplot(kfcw, col=c("red","blue","green"), ylab="count or price($)", main="Boxplots for the three variables")
-#axis(side = 4)
-```
-
-Same conclusion: they do not look like normal, but we'll take it.
-
-#### Histogram
-Now histograms:
-```{r normality_histogram, echo=T}
-# We will learn to use the more powerful ggplot soon, instead of this generic hist function for histograms
-#barcolors = c("green", "violet", "orange", "blue", "pink", "red", "yellow", "cyan")
-#hist(kfcw$price, main = "Histogram for Price distribution", xlab="Price ($)", col=barcolors, breaks = 10)
-#hist(kfcw$wing, main = "Histogram for Wing-count", xlab="Wing Count", col=barcolors, breaks = 6)
-#hist(kfcw$drum, main = "Histogram for Drum-count", xlab="Drum Count", col=barcolors, breaks = 6)
-```
-
-#### Shapiro-Wilk test
-And finally, using shapiro-wilk test:
-```{r normality_shapiro_wilk}
-#priceshapiro = shapiro.test(kfcw$price)
-#wingshapiro = shapiro.test(kfcw$wing)
-#drumshapiro = shapiro.test(kfcw$drum)
+#Checking Summary statistics of the panel 
+descriptive_stats<- summary(df_panel2)
+descriptive_stats%>%
+  kable() %>%
+  kable_styling()
 ```
 
 
-## Linear Model
+## What can we see from our data? 
 
-Why?
+WHy histograms don't make sense in Panel data?
 
-```{r linear_model, results=T}
-# build a simple linear model (least square fit) of price as a function of everything else.
-#chicklm = lm(price ~ ., data=kfcw)
-# summary(chicklm)
-#xkabledply(chicklm, title = "Summary of linear model for Chicken Meals")
+Therefore we first need to take a glance on our data to see how a massive amount of information can be relevant and better understood for a regression
+
+```{r, results='asis'}
+# GGPLOTS relevant i.e (difference btw sexs, states, UI, other relevant)
+
+
+
+
+
+
+## GGplots btw variables (ID and state, state and sex, state and UI, employment change)
+
+
+
+
+
 ```
 
 
-```{r confint.lm, results=T}
-#coeffconfint = confint.lm(chicklm) 
-# coeffconfint
-#xkabledply(coeffconfint, title = "Coefficient Confidence Intervals (CI) at 95%") # display better than the line above
+### Plot 
+Dynamic scatter ggplotly
+
+```{r scatter , echo=T}
+#test <- ggplot(df_panel2, 
+#               aes(x = Age, y = State, color = State,frame = 'Week')) + 
+               geom_point()
+#ggplotly(test)
+
 ```
 
 ### Findings
 We find that:
 
-Check:   
 
-
-```{r linearmodel_vif, results=T}
-#loadPkg("faraway") # faraway library is one of them has a vif function
-# VIF check the collinearity issues between different variables/features in a (linear) model
-# vif(chicklm)
-#xkablevif(chicklm, title="Chicken Model VIFs")  # better display than the line above
-# unloadPkg("faraway")
-```
-With VIF values less than 5, we can safely conclude there is not much collinearity concerns in the dataset. 
-
-### Plot 3D
-What kind of plot
-
-```{r 3dscatter2, echo=T}
-#loadPkg("plot3D")
-# reference from http://www.sthda.com/english/wiki/impressive-package-for-3d-and-4d-graph-r-software-and-data-visualization
-# x, y, z variables
-#x <- kfcw$wing
-#y <- kfcw$drum
-#z <- kfcw$price
-# Compute the linear regression (z = ax + by + d)
-# chicklm <- lm(z ~ x + y)
-# predict values on regular xy grid
-#grid.lines = 20
-#x.pred <- seq(min(x), max(x), length.out = grid.lines)
-#y.pred <- seq(min(y), max(y), length.out = grid.lines)
-#xy <- expand.grid( wing = x.pred, drum =y.pred)
-#z.pred <- matrix(predict.lm(chicklm, newdata = xy), nrow = grid.lines, ncol = grid.lines)
-# fitted points for droplines to surface
-#fitpoints <- predict.lm(chicklm)
-# scatter plot with regression plane
-#scatter3D(x, y, z, pch = 18, cex = 2, theta = 5, phi = 20, ticktype = "detailed", xlab = "wing", ylab = "drum", zlab = "price",  surf = list(x = x.pred, y = y.pred, z = z.pred, facets = NA, fit = fitpoints), main = "Chicken Price Analysis")
-
-```
 
 # Conclusion
 Conclusions???
 
 
+
+
+
 ##Limitations
 
-test test
+test test test
+
 
 
 
 ## Next Steps
 
+
+## regresion DId
+
+#estimate the following model on our panel data
+#eq <- inv ~ value + capital
+
+#Pooled
+pooled = plm(eq, data = df_panel2, index = c("ID", "Week"), model = "pooling")
+summary(pooled)
+
+#Fixed effects
+fixed = plm(eq, data = df_panel2, index = c("ID", "Week"), model = "within")
+summary(fixed)
+
+#Random Effects
+random = plm(eq, data = df_panel2, index = c("ID", "Week"), model = "random")
+summary(random)
+
+#choosing btw fixed to random
+phtest(fixed, random)
+
+#Testing if we require random or fix effect
+phtest(fixed, random)
+
+is.data.frame(df_panel)
+dim(df_panel)
+
+
+**Anything else you consider relevant to include latter on...**
+
+
+
 # Reference 
 
 APA Style preferred
-
-
+databases
+papers
 
