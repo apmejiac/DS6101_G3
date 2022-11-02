@@ -229,7 +229,15 @@ r<- read_csv("Replacement_rate.csv")
 
 #Adding Mean replacement rate to data panel
 
-df_panel3<- left_join(df_panel2, rr, by= c('Week2'='week','State'))
+#df_panel3<- left_join(df_panel2, r, by= c('Week2'='week','State')) 
+
+#has this error Error in `is.data.frame()`:
+#! Join columns must be present in data.
+#✖ Problem with `week`.
+#Backtrace:
+# 1. dplyr::left_join(df_panel2, r, by = c(Week2 = "week", "State"))
+# 7. dplyr:::left_join.data.frame(df_panel2, r, by = c(Week2 = "week", "State"))
+
 df_panel3
 
 #removing additional unnecessary columns
