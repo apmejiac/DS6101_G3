@@ -256,7 +256,7 @@ df_panel2<- panel_data(df_panel2, id = ID, wave = Week)
 
 #Sub-setting the data sample based to remove persons with an income greater than      and that haven't been unemployed
 
-df_panel2 <- subset(df_panel2, income != 6 & income != 7 & income != 8 & wrklossrv != 2 & anywork != 2) 
+df_panel2 <- subset(df_panel2, income != 6 & income != 7 & income != 8 & wrklossrv != 0 & anywork != 0)  
 df_panel2
 
 
