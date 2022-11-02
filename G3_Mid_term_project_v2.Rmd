@@ -268,6 +268,7 @@ df_panel2
 
 Mention if our data set is a panel balanced or unbalanced, the number of unique IDs, the number of variables includes, what type of variables are going to be evaluated and why and the summary statistics
 
+Using pdim(), we find that our panel is unbalanced. 
 
 ```{r, results='asis'}
 #Checking the type of panel balanced or unbalanced
