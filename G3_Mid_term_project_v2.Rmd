@@ -123,10 +123,12 @@ df_panel <- list.files(path='C:\\Users\\apmej\\OneDrive\\Escritorio\\R\\Data\\')
   bind_rows 
 
 # remove additional unnecessary rows
-df_panel<- df_panel[ -c(27:50) ]
-df_panel<- df_panel[ -c(5:6) ]
-df_panel<- df_panel[ -c(1) ]
-df_panel<- df_panel[ -c(24:25) ]
+#df_panel<- df_panel[ -c(27:50) ]
+df_panel<- df_panel[ -c(26:51) ]
+#df_panel<- df_panel[ -c(5:6) ]
+df_panel<- df_panel[ -c(4:5) ]
+#df_panel<- df_panel[ -c(1) ] we can't remove the first column, it has scram
+#df_panel<- df_panel[ -c(24:25) ] removed SPND 4 and SPND 5
 
 #creating the panel
 
