@@ -89,7 +89,7 @@ institutions. The 2020 recession caused by the COVID-19 Pandemic was of a differ
 While necessary for many to keep afloat during the economic crises, a potential drawback of this policy is that workers may be disincentivized to work. If the benefit level is sufficiently high, returning to work may pay less money than remaining on unemployment insurance. A rational actor would see this and decide to stay on unemployment insurance and not return to the workforce. We seek to explore this topic and examine if workers were disincentivized to return to work. See photo:  
  ![Unemployment Insurance](C:/Users/apmej/OneDrive/Escritorio/R/UI_image.jpeg)
 
-## Why Panel Data is relevant?
+## Why Pooled Cross section data is relevant?
 
 
 
@@ -134,7 +134,6 @@ df_panel<- panel_data(df_panel, id = SCRAM, wave = WEEK)
 
 #renaming columns
 colnames(df_panel)[1:20]=c("ID","Week","State","Age","Hispanic","Other_race","Edu","Sex","p_hh","wrklossrv", 'anywork','kindwork','rsnnowrkrv','UI_apply', 'UI_recrv','UI_recvnow','house', 'income','SPND1','SPND2','SPND3','SPND4','SPND5' )
-head(df_panel)
 
 #Changing birth year to age
 df_panel$Age <- 2022-df_panel$Age
@@ -147,19 +146,8 @@ df_panel <- df_panel %>% dplyr::na_if(-88)
 df_panel2<- panel_data(df_panel, id = ID, wave = Week)
 df_panel2
 
-# removing NA's from ID column in dataframe
-
-df_panel2<-df_panel2[!is.na(df_panel2$ID),]
-
-# Changing state names 
-rep_str_state = c('1'='Alabama',
-                  '2'='Alaska',
-                  '4'='Arizona',
-                  '5'='Arkansas',
-                  '6'='California',
-                  '8'='Colorado',
-                  '9'='Connecticut',
-                  '10'='Delaware',
+# Changing state names first run 
+rep_str_state = c('10'='Delaware',
                   '11'='District of Columbia',
                   '12'='Florida',
                   '13'='Georgia',
@@ -204,21 +192,70 @@ rep_str_state = c('1'='Alabama',
                   '55'='Wisconsin',
                   '56'='Wyoming')
 
-
 df_panel2$State<- str_replace_all(df_panel2$State,rep_str_state)
+
+# Changing state names second run 
+rep_str_state2 = c('1'='Alabama',
+                  '2'='Alaska',
+                  '4'='Arizona',
+                  '5'='Arkansas',
+                  '6'='California',
+                  '8'='Colorado',
+                  '9'='Connecticut')
+
+df_panel2$State<- str_replace_all(df_panel2$State,rep_str_state2)
+
+# removing NA's from ID column in dataframe
+
+df_panel2<-df_panel2[!is.na(df_panel2$ID),]
 
 #Adding mean replacement rate column by state and week
 
-#*** Pending****#
+df_panel2$Week2[df_panel2$Week %in% 1:9]<- '1-9'
+df_panel2$Week2[df_panel2$Week %in% 10:15]<- '10-15'
+df_panel2$Week2[df_panel2$Week %in% 16:21]<- '16-21'
+df_panel2$Week2[df_panel2$Week %in% 22:27]<- '22-27'
+df_panel2$Week2[df_panel2$Week %in% 28:33]<- '28-33'
+df_panel2$Week2[df_panel2$Week %in% 34:38]<- '34-38'
+df_panel2$Week2[df_panel2$Week %in% 39:40]<- '39-40'
+df_panel2$Week2[df_panel2$Week %in% 41:43]<- '41-43'
+df_panel2$Week2[df_panel2$Week %in% 44:49]<- '44-49'
 
+#Importing replacement rate data CSV
 
+r<- read_csv("Replacement_rate.csv")
+
+#Adding Mean replacement rate to data panel
+
+df_panel3<- left_join(df_panel2, rr, by= c('Week2'='week','State'))
+df_panel3
+
+#removing additional unnecessary columns
+df_panel3<- as.data.frame(df_panel3)
+df_panel3<- df_panel3[ -c(20:21) ]
+df_panel3<- df_panel3[ -c(19:22) ]
+
+#copying df2 to df3
+df_panel2<-df_panel3
+
+#Changing categorical values for traditional 0 & 1
+df_panel2$Hispanic[df_panel2$Hispanic==2]<- 0
+df_panel2$Sex[df_panel2$Sex==2]<- 0
+df_panel2$wrklossrv[df_panel2$wrklossrv==2]<- 0
+df_panel2$anywork[df_panel2$anywork==2]<- 0
+df_panel2$UI_apply [df_panel2$UI_apply ==2]<- 0
+df_panel2$UI_recrv[df_panel2$UI_recrv==2]<- 0
+df_panel2$UI_recvnow[df_panel2$UI_recvnow==2]<- 0
+
+#converting data frame to panel
+df_panel2<- panel_data(df_panel2, id = ID, wave = Week)
 
 
 
 #Sub-setting the data sample based to remove persons with an income greater than      and that haven't been unemployed
 
-#*** Nina please add based on our discussion today, overright it on df_panel2 so that the next lines of code can still work"
-
+#*** Nina please add based on our discussion today, overwrite it on df_panel2 so that the next lines of code can still work"
+### Also be mindful if you change columns names above we need to modify them elsewhere###
 
 
 
@@ -234,6 +271,16 @@ Mention if our data set is a panel balanced or unbalanced, the number of unique 
 #Checking the type of panel balanced or unbalanced
 pdim(df_panel2)
 
+#Number of people repeated in sample
+count_reps<- df_panel2 %>% 
+        group_by(ID) %>% 
+        summarise(n=n())
+
+N_rep<- count_reps %>%
+        filter(n > 1)
+
+print(N_rep)
+
 # Amount of unique values
 length(unique(df_panel2$ID))
 
@@ -241,10 +288,13 @@ length(unique(df_panel2$ID))
 str(df_panel2)
 
 #Checking Summary statistics of the panel 
-descriptive_stats<- summary(df_panel2)
-descriptive_stats%>%
-  kable() %>%
-  kable_styling()
+##**pending remove final hist of result (Ale)
+
+summary(df_panel2)
+#descriptive_stats<- summary(df_panel2)
+#descriptive_stats%>%
+#  kable() %>%
+#  kable_styling()
 ```
 
 
@@ -258,7 +308,44 @@ Therefore we first need to take a glance on our data to see how a massive amount
 # GGPLOTS relevant i.e (difference btw sexs, states, UI, other relevant)
 
 
+#df_panel2<-dfpanel_2%>%mutate(Replacement_rate = case_when(
+#  Age) & Pclass==1 ~ 40,
+#  is.na(Age) & Pclass==2 ~ 30,
+#  is.na(Age) & Pclass==3 ~ 25,
+#  TRUE~Age
+#  ))
+#mutate
 
+#*** Pending****#
+df_panel3<- df_panel2 %>% ungroup() 
+
+
+
+str(df_panel3)
+test<- df_panel3 %>% group_by(State, Week) %>% summarize(wrk= sum(wrklossrv,na.rm = T)) 
+ggplot(test, 
+       aes(x = Week, 
+           y = wrk)) +
+  geom_point()
+
+
+plotdata <- df_panel2 %>%
+  group_by(ID) %>%
+  mutate(
+    change = case_when(
+      wrklossrv != lag(wrklossrv) ~ TRUE,
+      TRUE ~ FALSE
+    ),
+    n_change = cumsum(change)
+     )
+plotdata
+
+ggplot(plotdata, 
+       aes(x = Week, 
+           y = wrklossrv)) +
+  geom_point()
+
+mosaicplot(counts, xlab='Week', ylab='wrklossrv',main='Wins by Team', col='orange')
 
 
 
@@ -274,7 +361,11 @@ Therefore we first need to take a glance on our data to see how a massive amount
 ### Plot 
 Dynamic scatter ggplotly
 
-```{r scatter , echo=T}
+```{r , results='asis'}
+df_panel2<- df_panel2 %>% group_by(Week, State)%>% summarise(employment = sum(anywork))
+
+
+
 #test <- ggplot(df_panel2, 
 #               aes(x = Age, y = State, color = State,frame = 'Week')) + 
                geom_point()
@@ -287,7 +378,7 @@ We find that:
 
 
 
-# Conclusion
+## Conclusion
 Conclusions???
 
 
@@ -335,9 +426,11 @@ dim(df_panel)
 
 
 
-# Reference 
+## Reference 
 
 APA Style preferred
 databases
 papers
 
+## Annex
+Dictionary as a table
