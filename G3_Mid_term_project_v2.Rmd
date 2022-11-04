@@ -801,19 +801,19 @@ papers
 |           |   4   | Self-employed|
 |           |   5   | Working in family business  |
 
-+----------+-------+---------------------------------------------+           
++----------+------+----------------------------------------------+           
 |rsnnowrkrv |      | Main reason for not working |
-|           |  1   | Didn't want to be employed |
+|           |  1   | Didn't want to be employed  |
 |           |  2   | Sick or caring for COVID |
-|           |  3   | Caring for children|
-|           |  4   | Caring for an elderly|
-|           |  5   | Concerned getting/spreading COVID|
-|           |  6   | Sick (no COVID)or disabled|
-|           |  7   | Retired|
-|           |  8   | Laid off due to COVID|
-|           |  9   | Employer closed temporarily due to COVID|
-|           |  10  | Employer went out of business due to COVID|
-|           |  11  | Did not have transportation to work|
+|           |  3   | Caring for children |
+|           |  4   | Caring for an elderly |
+|           |  5   | Concerned getting/spreading COVID |
+|           |  6   | Sick (no COVID)or disabled |
+|           |  7   | Retired |
+|           |  8   | Laid off due to COVID |
+|           |  9   | Employer closed temporarily due to COVID |
+|           |  10  | Employer went out of business due to COVID |
+|           |  11  | Did not have transportation to work  |
 |           |  12  | Other reason  |
 
 +----------+-------+--------------------------------------------+
