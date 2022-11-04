@@ -106,11 +106,10 @@ https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html. Th
 Let us now merge and use the big data dataset using R.
 
 
-
-
-
-
-
+       
+ 
+         
+           
 ```{r init_data}
 #### Cleaning the data####
 # Setting working directory
@@ -123,12 +122,10 @@ df_panel <- list.files(path='C:\\Users\\apmej\\OneDrive\\Escritorio\\R\\Data\\')
   bind_rows 
 
 # remove additional unnecessary rows
-#df_panel<- df_panel[ -c(27:50) ]
-df_panel<- df_panel[ -c(26:51) ]
-#df_panel<- df_panel[ -c(5:6) ]
-df_panel<- df_panel[ -c(4:5) ]
-#df_panel<- df_panel[ -c(1) ] we can't remove the first column, it has scram
-#df_panel<- df_panel[ -c(24:25) ] removed SPND 4 and SPND 5
+df_panel<- df_panel[ -c(27:50) ]
+df_panel<- df_panel[ -c(5:6) ]
+df_panel<- df_panel[ -c(1) ]
+df_panel<- df_panel[ -c(24:25) ]
 
 #creating the panel
 
@@ -224,55 +221,31 @@ df_panel2$Week2[df_panel2$Week %in% 41:43]<- '41-43'
 df_panel2$Week2[df_panel2$Week %in% 44:49]<- '44-49'
 
 #Importing replacement rate data CSV
-
-r<- read_csv("Replacement_rate.csv")
+setwd('C:\\Users\\apmej\\OneDrive\\Escritorio\\R\\')
+rr<- read_csv("Replacement_rate.csv")
 
 #Adding Mean replacement rate to data panel
 
-df_panel3<- left_join(df_panel2, r, by= c('Week2'='Week','State')) 
+df_panel3<- left_join(df_panel2, rr, by= c('Week2'='week','State'))
 df_panel3
 
 #removing additional unnecessary columns
 df_panel3<- as.data.frame(df_panel3)
 df_panel3<- df_panel3[ -c(20:21) ]
-df_panel3<- df_panel3[ -c(19:21) ] # changed from 22 unless you wanted to removed week2?
+df_panel3<- df_panel3[ -c(19:22) ]
 
 #copying df2 to df3
 df_panel2<-df_panel3
 
-#Changing categorical values for traditional 0 & 1
+#Changing categorical values for traditional 0 & 1    triple check this with dictionary
 df_panel2$Hispanic[df_panel2$Hispanic==2]<- 0
-df_panel2$Sex[df_panel2$Sex==2]<- 0
+df_panel2$Sex[df_panel2$Sex==2]<- 'Female' #TESTING
+df_panel2$Sex[df_panel2$Sex==1]<- 'Male'   #TESTING
 df_panel2$wrklossrv[df_panel2$wrklossrv==2]<- 0
 df_panel2$anywork[df_panel2$anywork==2]<- 0
 df_panel2$UI_apply [df_panel2$UI_apply ==2]<- 0
 df_panel2$UI_recrv[df_panel2$UI_recrv==2]<- 0
 df_panel2$UI_recvnow[df_panel2$UI_recvnow==2]<- 0
-
-#converting data frame to panel
-df_panel2<- panel_data(df_panel2, id = ID, wave = Week)
-
-
-
-#Sub-setting the data sample based to remove persons with an income greater than      and that haven't been unemployed
-
-df_panel2 <- subset(df_panel2, income != 6 & income != 7 & income != 8 & wrklossrv != 0 & anywork != 0)  
-df_panel2
-
-
-
-```
-
-
-## Exploratory Data Analysis (EDA)
-
-Mention if our data set is a panel balanced or unbalanced, the number of unique IDs, the number of variables includes, what type of variables are going to be evaluated and why and the summary statistics
-
-Using pdim(), we find that our panel is unbalanced. 
-
-```{r, results='asis'}
-#Checking the type of panel balanced or unbalanced
-pdim(df_panel2)
 
 #Number of people repeated in sample
 count_reps<- df_panel2 %>% 
@@ -282,22 +255,49 @@ count_reps<- df_panel2 %>%
 N_rep<- count_reps %>%
         filter(n > 1)
 
-print(N_rep)
+#  removing ids column
+df_panel2<- df_panel2[ -c(1) ]
+
+#converting data frame to panel
+df_panel2<- panel_data(df_panel2, id = State, wave = Week)
+
+#Sub-setting the data sample based to remove persons with an income greater than and that haven't been unemployed    ** seems a drastic change
+df_panel2 <- subset(df_panel2, income != 7 & income != 8 & wrklossrv != 0 & anywork != 1)  # LEVE 6 SHOULD BE INCLUDED STILL#
+
+
+
+
+
+```
+
+
+# Exploratory Data Analysis (EDA)
+
+Mention if our data set is a panel balanced or unbalanced, the number of unique IDs, the number of variables includes, what type of variables are going to be evaluated and why and the summary statistics
+
+
+```{r, comment="", prompt=TRUE}
+#Checking the type of panel balanced or unbalanced
+
+print('Information about the panel:')
+pdim(df_panel2)
 
 # Amount of unique values
+print('Amount of unique values:')
 length(unique(df_panel2$ID))
 
+
+#Number of people repeated in sample
+print('Number of people repeated in sample: ')
+N_rep
+
 #Checking panel structure
-str(df_panel2)
+#kable(str(df_panel2))
+glimpse(df_panel2)
+#str(df_panel2)
+xkablesummary(df_panel2, title="Summary Statistics",pos='left', bso= 'condensed')
+#summary(df_panel2)
 
-#Checking Summary statistics of the panel 
-##**pending remove final hist of result (Ale)
-
-summary(df_panel2)
-#descriptive_stats<- summary(df_panel2)
-#descriptive_stats%>%
-#  kable() %>%
-#  kable_styling()
 ```
 
 
@@ -308,6 +308,204 @@ WHy histograms don't make sense in Panel data?
 Therefore we first need to take a glance on our data to see how a massive amount of information can be relevant and better understood for a regression
 
 ```{r, results='asis'}
+
+#** Interviewed sample per sex and state**
+  
+theme_set(theme_classic())
+g <- ggplot(df_panel2, aes(State))
+g + geom_bar(aes(fill=Sex), width = 0.7) + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
+  labs(title="Interviewed sample per sex and state", 
+       subtitle="Number of persons") 
+
+# **Box plot per age and state
+ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) + 
+   geom_boxplot() +
+  stat_summary(fun=mean, geom="point", shape=4)+ 
+  labs(title="Box Plot Age/ Sex") 
+
+
+#*** education
+
+#***mean avg replacement per state
+#***** testing*****
+#Filtering unique values in data set
+#df_t<- df_panel2[ -c(1) ]
+#str(df_t)
+#df_t<- panel_data(df_t, id = State, wave = Week)
+
+#df_t<- df_t %>% 
+#       group_by(State, Week) %>%
+#       mutate( wrk= cumsum(wrklossrv[wrklossrv==1]/n=n()))
+
+#ggplot(df_t, aes(x = wrk, color = State)) + geom_point(aes(frame= Week))
+#gap1
+
+#weekly_counts <- df_panel2 %>%
+#  count(Week, State)
+
+#t<-weekly_counts %>% 
+# ggplot(mapping = aes(x = Week, y = n, color= State)) +
+#     geom_point(aes(frame= Week))    #soso
+#ggplotly(t)   ## soso
+
+
+
+# Sex state
+
+#ss<- as.data.frame(table(df_panel2$Week,df_panel2$State,df_panel2$Sex,useNA = "ifany"))
+#colnames(ss)[1:3]=c("Week", "State","Sex")
+
+#ggplot(mapping = aes(x = State, y = freq, color= Sex)) +
+#     geom_point(aes(frame= State))    #soso
+#ggplotly(t) 
+
+
+#ggplot(ss, aes(x = Freq, y = State, fill = Sex)) + 
+#  geom_col()+ 
+#  labs(title = "Participants per State", 
+#       y = "State", 
+#       x = "Number of persons", 
+ #      caption = "Source: Authors based on Pulse Survey") 
+
+
+#Sex_state<- df_panel2 %>%
+#            group_by(Week,State,Sex) %>%
+#            summarise(n = n()) %>%
+#            mutate(Freq = n/sum(n))
+
+#ggplot(mapping = aes(x = State, y = freq, color= Sex)) +
+#     geom_point(aes(frame= State))    #soso
+#ggplotly(t) 
+
+#ss %>% 
+#  ggplot(mapping = aes(x = State, y = Freq)) +
+#    geom_point(alpha = 0.2, aes(color = Sex)) 
+
+#ggplot(sst, aes(x=weight, color=sex)) +
+#  geom_histogram(fill="white")
+
+
+#sst %>% ggplot(mapping = aes(x = Week, y = n, color= State)) +
+#     geom_line()    #soso
+
+#ggplot(sst, aes(x=Sex)) + geom_histogram()
+
+
+
+
+#Weekly_sex_counts <- df_t %>%
+ #                     count(Week, State, Sex)
+
+#ggplot(data = Weekly_sex_counts, mapping = aes(x = Week, y = n, color = Sex)) +
+#  geom_line() +
+#  facet_wrap(facets =  vars(State))
+
+
+
+#Wrk_counts <- df_t %>%
+#                      count(Week, State, Sex, wrklossrv)
+
+#test <- ggplot(df_t, aes(x = wrklossrv, y = Sex, color = State)) + geom_point(aes(frame= Week))
+
+#ggplotly(test)
+
+
+
+#plotdata <- df_t %>%
+#  group_by(Week) %>%
+#  mutate(
+#    change = case_when(
+#      wrklossrv != lag(wrklossrv) ~ TRUE,
+#      TRUE ~ FALSE
+#    ),
+#    n_change = cumsum(change))
+#plotdata
+
+#ggplot(plotdata, 
+#       aes(x = Week, 
+#           y = change)) +
+#geom_point()
+
+
+#df_t <- subset(df_panel3, wrklossrv != 2 & UI_recrv  != 2)  
+
+#df_t<- df_t[ -c(1,4:9,11:14,16:20)]
+
+
+#df_t2<- df_t %>%
+#  group_by(State,Week) %>%
+#  summarize(total_wrkloss = sum(wrklossrv), total_ui = sum(UI_recrv))                                                    
+
+#count_reps<- df_panel3 %>% 
+#        group_by(Week, State) %>% summarise(wrk= sum(wrklossrv,na.rm = T))
+
+                  
+
+
+#ggplot(df_t2, aes(x=Week,fill=total_wrkloss)) + geom_histogram() + facet_wrap(~State)
+
+#ggplot(df_t, 
+#       aes(x = State, 
+#           y =wrklossr)) +
+#  geom_point())
+
+#ggplot(df_t, 
+#       aes(x = Week, 
+#           y = wrklossrv)) +
+#  geom_point()
+#test<- df_t %>% group_by(State, Week) %>% summarize(wrk= sum(wrklossrv,na.rm = T)) 
+#ggplot(test, 
+#       aes(x = Week, 
+#           y = wrk)) +
+#  geom_point()
+
+#empl<-as.factor(df_t$anywork)
+#dplyr::count(df_t$anywork, vec) 
+
+
+#df_tot <- df_t %>%
+#  group_by(Week,State) %>%
+#    summarize(wk_change = sum(anywork == 1))
+
+#ggplot(df_tot, 
+#       aes(x = State, 
+#           y =wk_change)) +
+#  geom_point()
+
+
+
+#***** testing*****
+
+
+#***** testing*****
+#Filtering unique values in data set
+#df_t<- df_panel2[ -c(1) ]
+#str(df_t)
+#df_t<- panel_data(df_t, id = State, wave = Week)
+
+#df_t<- df_t %>% 
+#       group_by(State, Week) %>%
+#       mutate( wrk= cumsum(wrklossrv[wrklossrv==1]/n=n()))
+
+#ggplot(df_t, aes(x = wrk, color = State)) + geom_point(aes(frame= Week))
+#gap1
+
+#weekly_counts <- df_panel2 %>%
+#  count(Week, State)
+
+#t<-weekly_counts %>% 
+#ggplot(mapping = aes(x = Week, y = n, color= State)) +
+#     geom_point(aes(frame= Week))    #soso
+#ggplotly(t)   ## soso
+
+#***** testing*****
+
+
+
+
+
+
 # GGPLOTS relevant i.e (difference btw sexs, states, UI, other relevant)
 
 
@@ -320,41 +518,49 @@ Therefore we first need to take a glance on our data to see how a massive amount
 #mutate
 
 #*** Pending****#
-df_panel3<- df_panel2 %>% ungroup() 
+#*
+#*
+#*
+#ggplot(df_panel2, aes(x=Week, col=Sex)) + geom_density()
+#ggplot(df_panel2, aes(x=Week,fill=Sex)) + geom_histogram() + facet_wrap(~Sex)
+#ggplot(df_panel2, aes(x=Week,fill=Sex)) + geom_histogram() + facet_wrap(~Sex, ncol=1)
+#*
+#df_panel3<- df_panel2 %>% ungroup() 
 
 
-
-str(df_panel3)
-test<- df_panel3 %>% group_by(State, Week) %>% summarize(wrk= sum(wrklossrv,na.rm = T)) 
-ggplot(test, 
-       aes(x = Week, 
-           y = wrk)) +
-  geom_point()
+#test<- df_panel2 %>% group_by(State, Week) %>% summarize(wrk= sum(wrklossrv,na.rm = T)) 
+#ggplot(test, 
+#       aes(x = Week, 
+#           y = wrk)) +
+#  geom_point()
 
 
-plotdata <- df_panel2 %>%
-  group_by(ID) %>%
-  mutate(
-    change = case_when(
-      wrklossrv != lag(wrklossrv) ~ TRUE,
-      TRUE ~ FALSE
-    ),
-    n_change = cumsum(change)
-     )
-plotdata
+#plotdata <- df_panel2 %>%
+#  group_by(ID) %>%
+#  mutate(
+#    change = case_when(
+#      wrklossrv != lag(wrklossrv) ~ TRUE,
+#      TRUE ~ FALSE
+#    ),
+#    n_change = cumsum(change)
+#     )
+#plotdata
 
-ggplot(plotdata, 
-       aes(x = Week, 
-           y = wrklossrv)) +
-  geom_point()
+#ggplot(plotdata, 
+#       aes(x = Week, 
+#           y = wrklossrv)) +
+#  geom_point()
 
-mosaicplot(counts, xlab='Week', ylab='wrklossrv',main='Wins by Team', col='orange')
+#mosaicplot(counts, xlab='Week', ylab='wrklossrv',main='Wins by Team', col='orange')
 
 
 
 ## GGplots btw variables (ID and state, state and sex, state and UI, employment change)
 
 
+#install.packages("sf")
+#library(sf)
+#Loading libraries
 
 
 
@@ -365,37 +571,62 @@ mosaicplot(counts, xlab='Week', ylab='wrklossrv',main='Wins by Team', col='orang
 Dynamic scatter ggplotly
 
 ```{r , results='asis'}
-df_panel2<- df_panel2 %>% group_by(Week, State)%>% summarise(employment = sum(anywork))
+#df_panel2<- df_panel2 %>% group_by(Week, State)%>% summarise(employment = sum(anywork))
+#df_t %>%group_by(Week, State) %>%
+#        tally()
 
-
-
+#df_t %>% group_by(Week, State) %>%count(anywork,UI_recrv)
 #test <- ggplot(df_panel2, 
 #               aes(x = Age, y = State, color = State,frame = 'Week')) + 
-               geom_point()
+#               geom_point()
 #ggplotly(test)
+
+#df_t <- as.data.frame(df_t)
+#df_t <- subset(df_panel2, Week != 1 & Week != 2 & Week != 3)  
+#wk_count<- df_t %>% count(Week,anywork)
+#df_t2<- df_t %>% ungroup()
+#empl<- df_t %>% group_by(Week) %>% summarise(e= sum(anywork,na.rm = T))
+#ui_in<- df_t %>% group_by(Week) %>% summarise(e= sum(UI_recrv,na.rm = T))
+#count the number of occurances 
+
+# be able to 
+#df_tot <- df_t %>%
+#  group_by(Week) %>%
+#  mutate(wk_change = ifelse(anywork == lag(anywork) | is.na(lag(anywork)), 0, 1),
+#         UI_change = ifelse(UI_recrv == lag(UI_recrv) | is.na(lag(UI_recrv)), 0, 1)) %>%
+#  summarize(tot_wk = sum(wk_change),
+#            tot_ui = sum(UI_change))
+
+#test <-df_tot %>% 
+# group_by(Week) %>%
+#  summarise(n = n()) %>% ggplot(df_t2, aes(x = anywork, y = UI_recrv, color = State)) + geom_point(aes(frame= Week))
+#ggplotly(test)
+
+#colSums(df_tot[3])
+
 
 ```
 
-### Findings
+# Findings
 We find that:
 
 
 
-## Conclusion
+# Conclusion
 Conclusions???
 
 
 
 
 
-##Limitations
+# Limitations
 
 test test test
 
 
 
 
-## Next Steps
+# Next Steps
 
 
 ## regresion DId
@@ -429,11 +660,115 @@ dim(df_panel)
 
 
 
-## Reference 
+# References 
 
 APA Style preferred
 databases
 papers
 
-## Annex
-Dictionary as a table
+# Annex
+
+## Data dictionary
+
++----------+-------+--------------------------------------------+
+|Variable  | Codes | Description        |
++==========+=======+============================================+
+|Hispanic  |   0   | Hispanic|
+|                              |
+|          |   1   | Non Hispanic|    
+
++----------+-------+--------------------------------------------+
+|Other Race |   1   | White          |  
+|           |   2   | Black          |
+|           |   3   | Asian          |
+|           |   4   | Any other race |
+
++----------+-------+--------------------------------------------+
+|Education  |   1   | Less than high school|  
+|           |   2   | Some high school  |
+|           |   3   | High school grad or equiv  |
+|           |   4   | Some college no degree received|   
+|           |   5   | Associate's degree|  
+|           |   6   | Bachelor's degree |  
+|           |   7   | Graduate degree |
+
++----------+-------+---------------------------------------------+
+|Sex        |   0   | Female            |
+|           |   1   | Male              |
+
++----------+-------+---------------------------------------------+
+|p_hh       | 1-40  | Number of people in household|
+
++----------+-------+---------------------------------------------+
+|wrklossrv  |       | Recent household job loss|
+|           |   0   | No  |
+|           |   1   | Yes|
+           
++----------+-------+---------------------------------------------+           
+|anywork    |       | Employment status for last 7 days|
+|           |   0   | No  |
+|           |   1   | Yes|
+
++----------+-------+---------------------------------------------+           
+|kindwork   |       | Sector of Employment |
+|           |   1   | Government  |
+|           |   2   | Private company|
+|           |   3   | Non profit |
+|           |   4   | Self-employed|
+|           |   5   | Working in family business  |
+
++----------+-------+---------------------------------------------+           
+|rsnnowrkrv |      | Main reason for not working |
+|           |  1   | Didn't want to be employed |
+|           |  2   | Sick or caring for COVID |
+|           |  3   | Caring for children|
+|           |  4   | Caring for an elderly|
+|           |  5   | Concerned getting/spreading COVID|
+|           |  6   | Sick (no COVID)or disabled|
+|           |  7   | Retired|
+|           |  8   | Laid off due to COVID|
+|           |  9   | Employer closed temporarily due to COVID|
+|           |  10  | Employer went out of business due to COVID|
+|           |  11  | Did not have transportation to work|
+|           |  12  | Other reason  |
+
++----------+-------+--------------------------------------------+
+|UI_apply   |       | UI Apply|
+|           |   0   | No  |
+|           |   1   | Yes  |                           
+
++----------+-------+--------------------------------------------+
+|UI_recrv   |       | UI Receive|
+|           |   0   | No  |
+|           |   1   | Yes  |           
+
++----------+-------+--------------------------------------------+
+|UI_recvnow |      |UI Receive now|
+|           |  0   |No  |
+|           |  1   |Yes  |                                
+
++----------+-------+--------------------------------------------+
+|house      |       | Housing owned or rented|
+|           |   0   | No  |
+|           |   1   | Yes  |
+
++----------+-------+--------------------------------------------+
+|income     |       | Total household income|
+|           |   1   | Less than $25,000  |
+|           |   2   | $25,000 - $34,999 |
+|           |   3   | $35,000 - $49,999 |
+|           |   4   | $50,000 - $74,999|
+|           |   5   | $75,000 - $99,999 | 
+|           |   6   | $100,000 - $149,999|
+|           |   7   | $150,000 - $199,999|
+|           |   8   | $200,000 and above|
+
++----------+-------+--------------------------------------------+
+|Mean RR 1  |       | Replacement Ratio 1=Weighted Avg of:WBA/(Normal Hourly Wage x 40 Hrs.)|
+
++----------+-------+--------------------------------------------+
+|Mean RR 2  |       | Replacement Ratio 2=Ratio of: Weighted Avg WBA/Weighted Avg (Normal Hourly Wage x 40| Hrs.)
+
+
+
+
