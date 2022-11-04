@@ -334,7 +334,7 @@ xkablesummary(df_panel2, title="Summary Statistics",pos='left', bso= 'condensed'
 
 ## What can we see from our data? 
 
-WHy histograms don't make sense in Panel data?
+Why histograms don't make sense in Panel data?
 
 Therefore we first need to take a glance on our data to see how a massive amount of information can be relevant and better understood for a regression
 
