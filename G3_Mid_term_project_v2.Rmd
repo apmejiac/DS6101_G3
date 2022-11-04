@@ -399,7 +399,7 @@ e1 + geom_bar(position = "dodge",
 #   summarise(n = sum(UI_recrv == 1)) %>%
 #   mutate(Freq = n/378123)
 
-#UI <- table(df_panel2$State,df_panel2$UI_recrv ))
+#UI <- table(df_panel2$State,df_panel2$UI_recrv )
 #UI
 #We need something ##
 
