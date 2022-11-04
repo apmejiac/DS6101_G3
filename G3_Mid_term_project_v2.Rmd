@@ -45,6 +45,7 @@ output:
 #install.packages('lmtests')
 #install.packages("kableExtra")
 #install.packages('plotly')
+#install.packages('GGally')
 library(plotly)
 library(kableExtra)
 library(skimr)
@@ -66,6 +67,7 @@ library(broom) #for `glance(`) and `tidy()`
 library(ezids)
 library(plot3D)
 library(tinytex)
+library(GGally, quietly = TRUE)
 ```
 
 
@@ -207,6 +209,7 @@ df_panel2$State<- str_replace_all(df_panel2$State,rep_str_state2)
 # removing NA's from ID column in dataframe
 
 df_panel2<-df_panel2[!is.na(df_panel2$ID),]
+df_panel2<-df_panel2[!is.na(df_panel2$State),]
 
 #Adding mean replacement rate column by state and week
 
@@ -239,15 +242,43 @@ df_panel2<-df_panel3
 
 #Changing categorical values for traditional 0 & 1    triple check this with dictionary
 df_panel2$Hispanic[df_panel2$Hispanic==2]<- 0
-df_panel2$Sex[df_panel2$Sex==2]<- 'Female' #TESTING
-df_panel2$Sex[df_panel2$Sex==1]<- 'Male'   #TESTING
+df_panel2$Sex[df_panel2$Sex==2]<- 'Female' #Changing to categorical
+df_panel2$Sex[df_panel2$Sex==1]<- 'Male'   #Changing to categorical
+
+df_panel2$Edu[df_panel2$Edu==1]<- 'Less than high school' #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==2]<- 'Some high school' #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==3]<- 'High school grad or equiv' #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==4]<- 'Some college no degree received' #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==5]<-"Associate's degree" #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==6]<- "Bachelor's degree" #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==7]<- 'Graduate degree' #Changing to categorical
+
+df_panel2$income[df_panel2$income==1]<- 'Less than $25,000' #Changing to categorical
+df_panel2$income[df_panel2$income==2]<- '$25,000 - $34,999' #Changing to categorical
+df_panel2$income[df_panel2$income==3]<- '$35,000 - $49,999' #Changing to categorical
+df_panel2$income[df_panel2$income==4]<- '$50,000 - $74,999' #Changing to categorical
+df_panel2$income[df_panel2$income==5]<- '$75,000 - $99,999' #Changing to categorical
+df_panel2$income[df_panel2$income==6]<- '$100,000 - $149,999' #Changing to categorical
+df_panel2$income[df_panel2$income==7]<- '$150,000 - $199,999' #Changing to categorical
+df_panel2$income[df_panel2$income==8]<- '$200,000 and above' #Changing to categorical
+
 df_panel2$wrklossrv[df_panel2$wrklossrv==2]<- 0
 df_panel2$anywork[df_panel2$anywork==2]<- 0
 df_panel2$UI_apply [df_panel2$UI_apply ==2]<- 0
 df_panel2$UI_recrv[df_panel2$UI_recrv==2]<- 0
 df_panel2$UI_recvnow[df_panel2$UI_recvnow==2]<- 0
 
+#Importing regions data CSV
+setwd('C:\\Users\\apmej\\OneDrive\\Escritorio\\R\\')
+reg<- read_csv("US_regions.csv")
+
+#Adding regions to data panel
+
+df_panel2<- left_join(df_panel2, reg, by= c('State'))
+
+
 #Number of people repeated in sample
+
 count_reps<- df_panel2 %>% 
         group_by(ID) %>% 
         summarise(n=n())
@@ -308,26 +339,81 @@ WHy histograms don't make sense in Panel data?
 Therefore we first need to take a glance on our data to see how a massive amount of information can be relevant and better understood for a regression
 
 ```{r, results='asis'}
-
 #** Interviewed sample per sex and state**
   
 theme_set(theme_classic())
-g <- ggplot(df_panel2, aes(State))
-g + geom_bar(aes(fill=Sex), width = 0.7) + 
+ss <- ggplot(df_panel2, aes(x=fct_infreq(State)))
+ss + geom_bar(aes(fill=Sex), width = 0.7) + 
   theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
   labs(title="Interviewed sample per sex and state", 
-       subtitle="Number of persons") 
+       subtitle="Number of persons")
+```
 
-# **Box plot per age and state
+#### Tell something about the graph
+```{r, results='asis'}
+# **Box plot per age and state**
 ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) + 
    geom_boxplot() +
   stat_summary(fun=mean, geom="point", shape=4)+ 
-  labs(title="Box Plot Age/ Sex") 
+  labs(title="Box Plot Age/ Sex")
+```
 
 
-#*** education
+```{r, results='asis'}
 
-#***mean avg replacement per state
+e1 <- ggplot(data = df_panel2,
+            mapping = aes(x = Region, fill = Edu))
+e1 + geom_bar(position = "dodge",
+             mapping = aes(y = ..prop.., group = Edu))+ 
+              labs(title="Levels of education of the sample",
+                   subtitle= 'by US region')
+
+
+```
+
+
+```{r, results='asis'}
+#***mean avg replacement per state?
+```
+
+
+```{r, results='asis'}
+# Make a table of 
+
+
+###Income data graph (Fig 4.20 https://walker-data.com/census-r/exploring-us-census-data-with-visualization.html)
+```
+
+
+```{r, results='asis'}
+
+#t<-ggplot(df_panel2, aes(x = UI_recrv, fill = UI_recrv,  color= State)) +
+ #    geom_point(aes(frame= Week))   
+#t
+
+#ggplotly(t) 
+
+
+#UI<- df_panel2 %>%
+#   group_by(Week,State,UI_recrv) %>%
+#   summarise(n = sum(UI_recrv == 1)) %>%
+#   mutate(Freq = n/378123)
+
+#UI <- table(df_panel2$State,df_panel2$UI_recrv ))
+#UI
+#We need something ##
+
+#ggplot(subset(df_panel2, UI_recrv == 1), aes(x=UI_recrv, fill=interaction(State, Week)))+
+#geom_bar(position = position_dodge(width=0.4), aes(y = (..count..)/sum(..count..)))
+
+#table(df_panel2$UIrecrv)
+#prop.table(table(df_panel2$wrklossrv, df_panel2$UI_recrv))
+#df_panel2<-subset(df_panel2, wrklossrv != 0 )
+
+```
+
+
+```{r, results='asis'}
 #***** testing*****
 #Filtering unique values in data set
 #df_t<- df_panel2[ -c(1) ]
@@ -374,9 +460,7 @@ ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) +
 #            summarise(n = n()) %>%
 #            mutate(Freq = n/sum(n))
 
-#ggplot(mapping = aes(x = State, y = freq, color= Sex)) +
-#     geom_point(aes(frame= State))    #soso
-#ggplotly(t) 
+
 
 #ss %>% 
 #  ggplot(mapping = aes(x = State, y = Freq)) +
@@ -769,6 +853,8 @@ papers
 +----------+-------+--------------------------------------------+
 |Mean RR 2  |       | Replacement Ratio 2=Ratio of: Weighted Avg WBA/Weighted Avg (Normal Hourly Wage x 40| Hrs.)
 
+
+Add regions table!!!
 
 
 
