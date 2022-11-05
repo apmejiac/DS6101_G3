@@ -368,7 +368,6 @@ ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) +
         legend.position = "none")
 ```
 
-
 ```{r, results='asis'}
 
 e1 <- ggplot(data = df_panel2,
@@ -376,8 +375,16 @@ e1 <- ggplot(data = df_panel2,
 e1 + geom_bar(position = "dodge",
              mapping = aes(y = ..prop.., group = Edu))+ 
               labs(title="Levels of education of the sample",
-                   subtitle= 'by US region')
-
+                   subtitle= 'by US region') +
+    theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.major.y = element_line(color = "lightgray"),
+        axis.line = element_line(color = "black"),
+        axis.ticks.y=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank())
 
 ```
 
