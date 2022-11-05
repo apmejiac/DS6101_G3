@@ -392,10 +392,14 @@ replacerate1
 
 
 ```{r, results='asis'}
-# Make a table of 
-
-
-###Income data graph (Fig 4.20 https://walker-data.com/census-r/exploring-us-census-data-with-visualization.html)
+ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
+  geom_quasirandom(alpha = 0.5) + 
+  theme_minimal(base_size = 13) + 
+  scale_color_viridis_c(guide = "none") + 
+  scale_x_continuous(limits = c(1, 4)) + 
+  labs(y = "Income", 
+       x = "Race", 
+       title = "Household income distribution by largest racial/ethnic group")
 ```
 
 
