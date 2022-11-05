@@ -346,7 +346,8 @@ ss <- ggplot(df_panel2, aes(x=fct_infreq(State)))
 ss + geom_bar(aes(fill=Sex), width = 0.7) + 
   theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
   labs(title="Interviewed sample per sex and state", 
-       subtitle="Number of persons") +
+       subtitle="Number of persons",
+       x = "State") +
   theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
