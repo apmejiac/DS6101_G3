@@ -374,7 +374,10 @@ e1 + geom_bar(position = "dodge",
 
 ```{r, results='asis'}
 
-
+#df_panel2$Other_race[df_panel2$Other_race==1]<- 'White' 
+#df_panel2$Other_race[df_panel2$Other_race==2]<- 'Black'
+#df_panel2$Other_race[df_panel2$Other_race==3]<- 'Asian' 
+#df_panel2$Other_race[df_panel2$Other_race==4]<- 'Any other Race, or race in combination'
 
 replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replacement Ratio 2`, fill = Region)) +
   geom_boxplot() +
