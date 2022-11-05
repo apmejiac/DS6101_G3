@@ -395,7 +395,7 @@ replacerate1
 
 
 ```{r, results='asis'}
-png("Income by Race.png")
+jpeg("Income by Race.png")
 
 
 ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
