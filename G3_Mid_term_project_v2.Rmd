@@ -373,6 +373,9 @@ e1 + geom_bar(position = "dodge",
 
 
 ```{r, results='asis'}
+
+png("Income by Race.png")
+
 replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replacement Ratio 2`, fill = Region)) +
   geom_boxplot() +
   stat_summary(fun=mean, geom="point", shape=4) +
