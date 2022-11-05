@@ -383,8 +383,9 @@ e1 <- ggplot(data = df_panel2,
             mapping = aes(x = Region, fill = Edu))
 e1 + geom_bar(position = "dodge",
              mapping = aes(y = ..prop.., group = Edu))+ 
-              labs(title="Levels of education of the sample",
-                   subtitle= 'by US region') +
+              labs(title="Levels of Education in the Sample",
+                   subtitle= 'by US region',
+                   y = "Proportion") +
     theme(panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
@@ -393,10 +394,10 @@ e1 + geom_bar(position = "dodge",
         axis.ticks.y=element_blank(),
         axis.ticks.x=element_blank(),
         axis.line.y = element_blank(),
-        axis.line.x = element_blank())
+        axis.line.x = element_blank()) +
+  ylim(0,.4)
 
 ```
-
 
 ```{r, results='asis'}
 
