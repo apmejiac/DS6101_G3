@@ -459,12 +459,17 @@ replacerate1
 The replacement rate is higher in the Northeast and West. The higher the replacement rates the more they can alleviate economic hardship. The south region is the one that shows the lowest replace ratio. 
 
 
-
+### Findings race by income
 ```{r, results='asis'}
-# Make a table of 
-
-## Pending Dustin/ Nina
-###Income data graph (Fig 4.20 https://walker-data.com/census-r/exploring-us-census-data-with-visualization.html)
+ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
+  geom_quasirandom(alpha = 0.5) + 
+  theme_minimal(base_size = 13) + 
+  scale_color_viridis_c(guide = "none") + 
+  scale_y_discrete(limits = c(1:6), labels =c('Less than $25,000', '$25,000 - $34,999', '$35,000 - $49,999', '$50,000 - $74,999', '$75,000 - $99,999', '$100,000 - $149,999')) +
+  scale_x_discrete(limits = c(1:4), labels =c('White', 'Black', 'Asian', 'Other')) + 
+  labs(y = "Income", 
+       x = "Race", 
+       title = "Household income distribution by largest racial/ethnic group")
 ```
 
 ### Findings between state and unemployment insurance received
