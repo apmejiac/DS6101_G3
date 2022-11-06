@@ -303,15 +303,23 @@ df_panel2$Edu[df_panel2$Edu==5]<-"Associate's degree" #Changing to categorical
 df_panel2$Edu[df_panel2$Edu==6]<- "Bachelor's degree" #Changing to categorical
 df_panel2$Edu[df_panel2$Edu==7]<- 'Graduate degree' #Changing to categorical
 
-df_panel2$income[df_panel2$income==1]<- 'Less than $25,000' #Changing to categorical
-df_panel2$income[df_panel2$income==2]<- '$25,000 - $34,999' #Changing to categorical
-df_panel2$income[df_panel2$income==3]<- '$35,000 - $49,999' #Changing to categorical
-df_panel2$income[df_panel2$income==4]<- '$50,000 - $74,999' #Changing to categorical
-df_panel2$income[df_panel2$income==5]<- '$75,000 - $99,999' #Changing to categorical
-df_panel2$income[df_panel2$income==6]<- '$100,000 - $149,999' #Changing to categorical
-df_panel2$income[df_panel2$income==7]<- '$150,000 - $199,999' #Changing to categorical
-df_panel2$income[df_panel2$income==8]<- '$200,000 and above' #Changing to categorical
+#df_panel2$income[df_panel2$income==1]<- 'Less than $25,000' #Changing to categorical
+#df_panel2$income[df_panel2$income==2]<- '$25,000 - $34,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==3]<- '$35,000 - $49,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==4]<- '$50,000 - $74,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==5]<- '$75,000 - $99,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==6]<- '$100,000 - $149,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==7]<- '$150,000 - $199,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==8]<- '$200,000 and above' #Changing to categorical
 
+df_panel2$income2[df_panel2$income==1]<- 'Less than $25,000' #Changing to categorical
+df_panel2$income2[df_panel2$income==2]<- '$25,000 - $34,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==3]<- '$35,000 - $49,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==4]<- '$50,000 - $74,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==5]<- '$75,000 - $99,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==6]<- '$100,000 - $149,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==7]<- '$150,000 - $199,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==8]<- '$200,000 and above' #Changing to categorical
 df_panel2$wrklossrv[df_panel2$wrklossrv==2]<- 0
 df_panel2$anywork[df_panel2$anywork==2]<- 0
 df_panel2$UI_apply [df_panel2$UI_apply ==2]<- 0
