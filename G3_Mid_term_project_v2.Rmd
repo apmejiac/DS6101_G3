@@ -478,6 +478,8 @@ ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
 #Finding percentage of people that are unemployed and received the benefit
 non<-df_panel2[!is.na(df_panel2$UI_recrv),]
 
+non<-df_panel2[!is.na(df_panel2$UI_recrv),]
+
 t1<-non %>%
   filter(UI_recrv == 1) %>% 
   group_by(Week,State) %>%
@@ -496,13 +498,20 @@ t1_0<- t1 %>% left_join(t0, by= c('State', 'Week'))
 t1_0<-t1_0%>% mutate(tot = UIO + n, .after = n)
 t1_0<-t1_0%>% mutate(x = UIO /tot, .after = tot)
 
-
+png(file = "UI_recieved.png")
 #Plot
 UI_rec <- ggplot(t1_0, 
-               aes(x = Week, y=  x, color = State)) + 
-               geom_point(aes(frame = Week))+
+               aes(x = Week, y= x, color = State)) + 
+               geom_point()+
+               transition_manual(Week)+
   labs(x = "Weeks", y = "% of unemployed persons receiving unemployment insurance", title = "Change in Unemployment Insurance received by state")
 ggplotly(UI_rec)
+
+animate(UI_rec, renderer = gifski_renderer())
+anim_save("UI_rec.gif")
+
+dev.off()
+
 
 
 ```
