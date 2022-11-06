@@ -45,6 +45,7 @@ output:
 #install.packages('lmtests')
 #install.packages("kableExtra")
 #install.packages('plotly')
+#install.packages('GGally')
 library(plotly)
 library(kableExtra)
 library(skimr)
@@ -66,7 +67,9 @@ library(broom) #for `glance(`) and `tidy()`
 library(ezids)
 library(plot3D)
 library(tinytex)
+library(GGally, quietly = TRUE)
 ```
+
 
 
 ```{r setup, include=FALSE}
@@ -80,35 +83,83 @@ options(scientific=T, digits = 3)
 ```
 
 # The Pandemic and the Unemployment Insurance
+![](C:\Users\apmej\OneDrive\Escritorio\R\UI_image.jpeg)
+
 ## The beginning
 
+In March 2020 the direction of the country began to change. The COVID-19 Pandemic raged through the country and lockdowns began. The result of this was a near standstill of the economy. As consumer demand decreased and businesses shut down, labor markets began to feel the heat. The combination of economic impacts and an increase in workplace hazards resulted in a massive spike in the unemployment rate. 
 
-[Edition requiered]In the past 20 years, the world has experienced two great economic catastrophes. The first of those, The Great Recession of 2008, was caused by a myriad of factors, but at the center of it all was a failure of
-institutions. The 2020 recession caused by the COVID-19 Pandemic was of a different nature. The world put the economy on hold in order to protect global health. Regardless of the cause, ordinary citizens felt the impact of each recession. One of the main ways this is seen is through the unemployment rate. In April 2020, the United States reached a previously unseen level of 14.7 percent. While the unemployment rate did not skyrocket quite as high during the Great Recession, there was still a sizeable increase. During both recessions, the federal government authorized enhanced and extended unemployment insurance benefits.
+The national rate reached a previously unseen level of 14.7 percent in April 2020. In response to this, Congress passed the CARES Act which contained provisions for enhanced and extended unemployment insurance benefits. While necessary for many to keep afloat during the economic crisis, a potential drawback of this policy is that workers may be disincentivized to work. If the benefit level is sufficiently high, returning to work may pay less money than remaining on unemployment insurance. A rational actor would see this and decide to stay on unemployment insurance and not return to the workforce.
+  
+ ![](C:\Users\apmej\OneDrive\Escritorio\R\Unemployment.jpeg)
 
-While necessary for many to keep afloat during the economic crises, a potential drawback of this policy is that workers may be disincentivized to work. If the benefit level is sufficiently high, returning to work may pay less money than remaining on unemployment insurance. A rational actor would see this and decide to stay on unemployment insurance and not return to the workforce. We seek to explore this topic and examine if workers were disincentivized to return to work. See photo:  
- ![Unemployment Insurance](C:/Users/apmej/OneDrive/Escritorio/R/UI_image.jpeg)
+
+The key question to address then becomes:
+**Which population segment in the United States of America have seen more population disincentivization to return to work due to the Unemployment Insurance under COVID-19 after evaluating weekly data since 2020? **
 
 ## Why Pooled Cross section data is relevant?
 
+Pooled cross section is a data structured where random samples are obtained from the population at different points in time. Pooled Cross Sections are obtained by collecting random samples from a large population independently at different points in time. Having random samples collected independently implies that they need not be of equal size and will usually contain different statistical units at different points in time.Therefore, limiting serial correlation of residuals when regression analysis is applied. The previous is useful for a variety of purposes, including policy analysis. For example, to study the effects of an unexpected change in unemployment insurance we can choose the treatment group to be unemployed individuals from a state that has a change in unemployment compensation, while a control group could be unemployed workers from a neighboring state. Since each observation is independent, the regression model of pooled cross section is as followed:
 
-
-
-
-
+ ![](C:\Users\apmej\OneDrive\Escritorio\R\pcs.png)
 
 ## About the data
 
-The weekly Census Household Pulse Survey, which collects data from an average of around 97,000 respondents per week. The details for the dataset can be found here:
-https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html. The main reasons we used this data includes: .........
+Since April 2020, the U.S. Census Bureau, in collaboration with multiple federal agencies, held the Household Pulse Survey(HPS). The main purpose of the survey was to be able to deploy quickly and efficiently, collected data to be able to measure household experiences during the COVID-19 pandemic.
 
+The Survey consist of a 20-minute, online survey which is meant to assess how individuals, families, and communities are being affected by the COVID-19 pandemic. Participants are drawn from randomly selected addresses, and respondents may be asked to complete the survey up to three times to track the effect of the pandemic on households over time.The survey collects data from an average of around 97,000 respondents per week. The Survey continues measuring how the COVID-19 pandemic is impacting households across the US from a social and economic perspective. The phases were planned. Results for Phase 1 were released weekly, and results from Phases 2 and 3 were released every two weeks. The details of each data collection was as followed.
 
-Let us now merge and use the big data dataset using R.
+*	Data collection for Phase 1 of the Household Pulse Survey began on April 23, 2020 and ended on July 21, 2020.
+*	Data collection for Phase 2 of the Household Pulse Survey began on August 19, 2020 and ended October 26, 2020.
+*	Data collection for Phase 3 of the Household Pulse Survey began on October 28, 2020 and ended March 29, 2021.
+*	Data collection for Phase 3.1 of the Household Pulse Survey began on April 14, 2021 and ended on July 5, 2021. 
+*	Data collection for Phase 3.2 of the Household Pulse Survey began July 21, 2021 and ended on October 11, 2021.
+*	Data collection for Phase 3.3 of the Household Pulse Survey began December 1, 2021 and ended on February 7, 2022.
+*	Data collection for Phase 3.4 of the Household Pulse Survey started on March 2, 2022 and ended on May 9, 2022. 
+*	Data collection for Phase 3.5 of the Household Pulse Survey started on June 1, 2022 and ended on August 8, 2022. 
+*	Data collection for Phase 3.6 of the Household Pulse Survey started on September 14, 2022 and is scheduled to continue until November 14, 2022. Phase 3.6 will continue with a two-weeks on, two-weeks off collection and dissemination approach, with data releases scheduled for October 5, October 26, and November 23, 2022.
 
+The details for the dataset can be found in the following link:
+https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html. 
 
+A complementary dataset that was also analyzed and incorporated was the Unemployment Insurance replacement rates from the Department of Labor of US available in the following link: https://oui.doleta.gov/unemploy/ui_replacement_rates.asp
 
+The Replacement Rate is the ratio of the claimants' weekly benefit amount (WBA) to the claimants' average weekly wage. Two key Replacement Ratios are available:
 
+*	Replacement Ratio 1 = Weighted Average of: WBA / (Normal Hourly Wage x 40 Hrs.)
+*	Replacement Ratio 2 = Ratio of:Weighted Average WBA / Weighted Average (Normal Hourly Wage x 40 Hrs.)
 
+## Reasons for using this dataset
+
+The HPS provides many advantages in comparison to other datasets that have measured unemployment insurance(i.e: the unemployment insurance of the labor department). Among the advantages that we can mention are:
+
+* The high frequency of the data which allows to measure employment more carefully.
+* The large sample which allows to approach towards the reality of the population.
+* The information asked allowing to understand socio-economic and geographic differences.
+
+Some of the initial variables we are using from the dataset include:
+
+* State
+* Sex
+* Education credentials
+* Person was working in the previous week
+* Hispanic origin
+* Race
+* Whether someone in their household experienced job loss since March 2020
+* Whether a person was working in the previous week
+* Home ownership and rental information
+* Income category
+* Unemployment benefit received
+
+Additionally, using the average replacement ratio will allow to further understand the motivation of workers to either return to the labor market given that with only the unemployment insurance benefits they could  not be able to truly alleviate severe economic hardship, particularly for low-wage workers. 
+
+We would now initiate our Exploratory Data Analysis (EDA) in the following section, considering that our previously stated research question is:
+
+* **Specific**: It provides the variables that will be evaluated, the periodicity, and scale at the State level.
+* **Measurable** The question will allow to quantify the impacts 
+* **Achievable** It can be achieve in a relative short period of time (~2 months)
+* **Relevant** Extremely relevant given that it can provide key information for policy makers and reduce population vulnerability
+* **Time-oriented** Given that it is focus in a short data frame the results should be ready by November 14
 
 
 ```{r init_data}
@@ -208,6 +259,7 @@ df_panel2$State<- str_replace_all(df_panel2$State,rep_str_state2)
 # removing NA's from ID column in dataframe
 
 df_panel2<-df_panel2[!is.na(df_panel2$ID),]
+df_panel2<-df_panel2[!is.na(df_panel2$State),]
 
 #Adding mean replacement rate column by state and week
 
@@ -222,8 +274,8 @@ df_panel2$Week2[df_panel2$Week %in% 41:43]<- '41-43'
 df_panel2$Week2[df_panel2$Week %in% 44:49]<- '44-49'
 
 #Importing replacement rate data CSV
-
-r<- read_csv("Replacement_rate.csv")
+setwd('C:\\Users\\apmej\\OneDrive\\Escritorio\\R\\')
+rr<- read_csv("Replacement_rate.csv")
 
 #Adding Mean replacement rate to data panel
 
@@ -238,40 +290,45 @@ df_panel3<- df_panel3[ -c(19:22) ]
 #copying df2 to df3
 df_panel2<-df_panel3
 
-#Changing categorical values for traditional 0 & 1
+#Changing categorical values for traditional 0 & 1    triple check this with dictionary
 df_panel2$Hispanic[df_panel2$Hispanic==2]<- 0
-df_panel2$Sex[df_panel2$Sex==2]<- 0
+df_panel2$Sex[df_panel2$Sex==2]<- 'Female' #Changing to categorical
+df_panel2$Sex[df_panel2$Sex==1]<- 'Male'   #Changing to categorical
+
+df_panel2$Edu[df_panel2$Edu==1]<- 'Less than high school' #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==2]<- 'Some high school' #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==3]<- 'High school grad or equiv' #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==4]<- 'Some college no degree received' #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==5]<-"Associate's degree" #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==6]<- "Bachelor's degree" #Changing to categorical
+df_panel2$Edu[df_panel2$Edu==7]<- 'Graduate degree' #Changing to categorical
+
+df_panel2$income[df_panel2$income==1]<- 'Less than $25,000' #Changing to categorical
+df_panel2$income[df_panel2$income==2]<- '$25,000 - $34,999' #Changing to categorical
+df_panel2$income[df_panel2$income==3]<- '$35,000 - $49,999' #Changing to categorical
+df_panel2$income[df_panel2$income==4]<- '$50,000 - $74,999' #Changing to categorical
+df_panel2$income[df_panel2$income==5]<- '$75,000 - $99,999' #Changing to categorical
+df_panel2$income[df_panel2$income==6]<- '$100,000 - $149,999' #Changing to categorical
+df_panel2$income[df_panel2$income==7]<- '$150,000 - $199,999' #Changing to categorical
+df_panel2$income[df_panel2$income==8]<- '$200,000 and above' #Changing to categorical
+
 df_panel2$wrklossrv[df_panel2$wrklossrv==2]<- 0
 df_panel2$anywork[df_panel2$anywork==2]<- 0
 df_panel2$UI_apply [df_panel2$UI_apply ==2]<- 0
 df_panel2$UI_recrv[df_panel2$UI_recrv==2]<- 0
 df_panel2$UI_recvnow[df_panel2$UI_recvnow==2]<- 0
 
-#converting data frame to panel
-df_panel2<- panel_data(df_panel2, id = ID, wave = Week)
+#Importing regions data CSV
+setwd('C:\\Users\\apmej\\OneDrive\\Escritorio\\R\\')
+reg<- read_csv("US_regions.csv")
 
+#Adding regions to data panel
 
+df_panel2<- left_join(df_panel2, reg, by= c('State'))
 
-#Sub-setting the data sample based to remove persons with an income greater than      and that haven't been unemployed
-
-#*** Nina please add based on our discussion today, overwrite it on df_panel2 so that the next lines of code can still work"
-### Also be mindful if you change columns names above we need to modify them elsewhere###
-
-
-
-```
-
-
-## Exploratory Data Analysis (EDA)
-
-Mention if our data set is a panel balanced or unbalanced, the number of unique IDs, the number of variables includes, what type of variables are going to be evaluated and why and the summary statistics
-
-
-```{r, results='asis'}
-#Checking the type of panel balanced or unbalanced
-pdim(df_panel2)
 
 #Number of people repeated in sample
+
 count_reps<- df_panel2 %>% 
         group_by(ID) %>% 
         summarise(n=n())
@@ -279,158 +336,311 @@ count_reps<- df_panel2 %>%
 N_rep<- count_reps %>%
         filter(n > 1)
 
-print(N_rep)
+#  removing ids column
+df_panel2<- df_panel2[ -c(1) ]
 
-# Amount of unique values
-length(unique(df_panel2$ID))
+#converting data frame to panel
+df_panel2<- panel_data(df_panel2, id = State, wave = Week)
 
-#Checking panel structure
-str(df_panel2)
+#Sub-setting the data sample based to remove persons with an income greater than and that haven't been unemployed   
+df_panel2 <- subset(df_panel2, income != 7 & income != 8 & wrklossrv != 0 & anywork != 1)  
 
-#Checking Summary statistics of the panel 
-##**pending remove final hist of result (Ale)
 
-summary(df_panel2)
-#descriptive_stats<- summary(df_panel2)
-#descriptive_stats%>%
-#  kable() %>%
-#  kable_styling()
+
+
+
 ```
 
+# Exploratory Data Analysis (EDA)
+
+```{r, comment="", prompt=TRUE}
+#Checking the type of panel balanced or unbalanced
+
+print('Information about the panel:')
+pdim(df_panel2)
+
+# Amount of unique values
+print('Amount of unique values:')
+length(unique(df_panel2$ID))
+
+
+#Number of people repeated in sample
+print('Number of people repeated in sample: ')
+N_rep
+
+#Checking panel structure
+#str(df_panel2)
+glimpse(df_panel2)
+xkablesummary(df_panel2, title="Summary Statistics",pos='left', bso= 'condensed')
+
+
+```
+
+Evaluating the cross sectional panel, we were able to see that the panel is unbalanced and it has more than 3 million observations. The sample size was reduced when we eliminated the persons that had an income higher than $150,000 and that did not lose employment, given that they would not be the most vulnerable group affected by the pandemic.This reduced the sample size to close to 300 thousand observations. As it was previously mentioned, most of the people in our sample were not interviewed more than three times. Given that the characteristic of cross- sectional data solves normality, rather than focusing in doing normality tests of the data, we focused in understanding it further and the linkages that they seem to be present between variables. Taking a careful look at our data set is relevant so we can better understood the best approach for a regression analysis. The following section highlights some of the key plots 
 
 ## What can we see from our data? 
 
-WHy histograms don't make sense in Panel data?
+### Findings between sex and state
+```{r, results='asis'}
+#** Interviewed sample per sex and state**
+  
+theme_set(theme_classic())
+ss <- ggplot(df_panel2, aes(x=fct_infreq(State)))
+ss + geom_bar(aes(fill=Sex), width = 0.7) + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6)) + 
+  labs(title="Sample per sex and state", 
+       subtitle="Number of persons",
+       x= 'States',
+       y= 'Frequency')
+```
 
-Therefore we first need to take a glance on our data to see how a massive amount of information can be relevant and better understood for a regression
+When analyzing the data we were able to find that California, Texas and Florida had the higher amount of unemployed population, while South Dakota and North Dakota the lowest. Gender distribution seems to be similar across states. 
+
+
+### Findings between age and sex
+```{r, results='asis'}
+# **Box plot per age and state**
+ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) + 
+   geom_boxplot() +
+  stat_summary(fun=mean, geom="point", shape=4)+ 
+  labs(title="Box Plot Age/ Sex",
+                   x= 'Sex',
+                   y= 'Age')+
+              theme(legend.position = 'none')
+```
+
+Regarding age and sex, the mean age of males was higher than that of females, with no outliers visible in the dataset. 
+
+### Findings between education level and region
+```{r, results='asis'}
+
+e1 <- ggplot(data = df_panel2,
+            mapping = aes(x = Region, fill = Edu))
+e1 + geom_bar(position = "dodge",
+             mapping = aes(y = ..prop.., group = Edu))+ 
+              labs(title="Levels of education of the sample",
+                   subtitle= 'by US region',
+                   x= 'Education',
+                   y= 'Proportion of the sample')
+
+
+```
+
+Per region, the West region shows the higher amount of population with less than high school certificates, while the Northeast shows a higher percentage of persons with graduate degrees. The South and West region seems to have a higher concentration of population. In the Midwest region  associate and graduate degree has the highest concentration of population.
+
+### Findings replacement ratio by region
+```{r, results='asis'}
+replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replacement Ratio 2`, fill = Region)) +
+  geom_boxplot() +
+  stat_summary(fun=mean, geom="point", shape=4) +
+  theme(panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        panel.grid.major.y = element_line(color = "lightgray"),
+        axis.line = element_line(color = "black"),
+        axis.ticks.y=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        legend.position = "none") +
+  labs(x = "Region", y = "Average of Replacement Ratio ", title = "Average of Replacement Ratio ", subtitle = "By Region")
+replacerate1
+
+```
+
+The replacement rate is higher in the Northeast and West. The higher the replacement rates the more they can alleviate economic hardship. The south region is the one that shows the lowest replace ratio. 
+
+
 
 ```{r, results='asis'}
-# GGPLOTS relevant i.e (difference btw sexs, states, UI, other relevant)
+# Make a table of 
 
-
-#df_panel2<-dfpanel_2%>%mutate(Replacement_rate = case_when(
-#  Age) & Pclass==1 ~ 40,
-#  is.na(Age) & Pclass==2 ~ 30,
-#  is.na(Age) & Pclass==3 ~ 25,
-#  TRUE~Age
-#  ))
-#mutate
-
-#*** Pending****#
-df_panel3<- df_panel2 %>% ungroup() 
-
-
-
-str(df_panel3)
-test<- df_panel3 %>% group_by(State, Week) %>% summarize(wrk= sum(wrklossrv,na.rm = T)) 
-ggplot(test, 
-       aes(x = Week, 
-           y = wrk)) +
-  geom_point()
-
-
-plotdata <- df_panel2 %>%
-  group_by(ID) %>%
-  mutate(
-    change = case_when(
-      wrklossrv != lag(wrklossrv) ~ TRUE,
-      TRUE ~ FALSE
-    ),
-    n_change = cumsum(change)
-     )
-plotdata
-
-ggplot(plotdata, 
-       aes(x = Week, 
-           y = wrklossrv)) +
-  geom_point()
-
-mosaicplot(counts, xlab='Week', ylab='wrklossrv',main='Wins by Team', col='orange')
-
-
-
-## GGplots btw variables (ID and state, state and sex, state and UI, employment change)
-
-
-
-
-
+## Pending Dustin/ Nina
+###Income data graph (Fig 4.20 https://walker-data.com/census-r/exploring-us-census-data-with-visualization.html)
 ```
 
-
-### Plot 
-Dynamic scatter ggplotly
-
+### Findings between state and unemployment insurance received
 ```{r , results='asis'}
-df_panel2<- df_panel2 %>% group_by(Week, State)%>% summarise(employment = sum(anywork))
+
+#Finding percentage of people that are unemployed and received the benefit
+non<-df_panel2[!is.na(df_panel2$UI_recrv),]
+
+t1<-non %>%
+  filter(UI_recrv == 1) %>% 
+  group_by(Week,State) %>%
+  count()
+colnames(t1)<- c('State', 'Week','UI')
+ 
+
+t0<-non %>%
+  filter(UI_recrv == 0) %>% 
+  group_by(Week,State) %>%
+  count()
+colnames(t1)<- c('State', 'Week','UIO')
+
+t1_0<- t1 %>% left_join(t0, by= c('State', 'Week'))
+
+t1_0<-t1_0%>% mutate(tot = UIO + n, .after = n)
+t1_0<-t1_0%>% mutate(x = UIO /tot, .after = tot)
 
 
+#Plot
+UI_rec <- ggplot(t1_0, 
+               aes(x = Week, y=  x, color = State)) + 
+               geom_point(aes(frame = Week))+
+  labs(x = "Weeks", y = "% of unemployed persons receiving unemployment insurance", title = "Change in Unemployment Insurance received by state")
+ggplotly(UI_rec)
 
-#test <- ggplot(df_panel2, 
-#               aes(x = Age, y = State, color = State,frame = 'Week')) + 
-               geom_point()
-#ggplotly(test)
 
 ```
 
-### Findings
-We find that:
+The unemployment insurance benefit in our sample becomes evident from week 13 on. Rhode Island has the highest number of unemployed persons receiving the benefit, while the District of Columbia had one of the lowest. Some states like Virginia, Vermont and Washington seem to have stopped the benefit towards week 43.
 
 
+# Findings and Conclusions
 
-## Conclusion
-Conclusions???
-
-
+The amount and frequency of the data in which we are working will allow to be able to avoid statistical mistakes and to be able to obtain a robust regression analysis that could provide relevant insight on unemployment. Having seen how sex and education change through the sample through state and the different percentage of unemployed receiving the benefit, using sex, education, and age as control variables will allow us in the next steps to obtain relevant conclusions that can contribute in informing employment policy in US.
 
 
+# Limitations
 
-##Limitations
+It is important to mention that although our approach uses data that can represent fairly well the US population under unemployment and receiving unemployment insurance there are still some limitations associated to it:
 
-test test test
+* The effects of the unemployment insurance cannot be assessed completely;
+* The way we are qualifying the incentives to return to the job market, could be bias (i.e: health, monetary, etc);
+* Unemployment insurance was not the only incentive that was used during COVID-19 that could descincentivize the return to work (i.e: food stamps, etc);
 
+# Next Steps
 
-
-
-## Next Steps
-
-
-## regresion DId
-
-#estimate the following model on our panel data
-#eq <- inv ~ value + capital
-
-#Pooled
-pooled = plm(eq, data = df_panel2, index = c("ID", "Week"), model = "pooling")
-summary(pooled)
-
-#Fixed effects
-fixed = plm(eq, data = df_panel2, index = c("ID", "Week"), model = "within")
-summary(fixed)
-
-#Random Effects
-random = plm(eq, data = df_panel2, index = c("ID", "Week"), model = "random")
-summary(random)
-
-#choosing btw fixed to random
-phtest(fixed, random)
-
-#Testing if we require random or fix effect
-phtest(fixed, random)
-
-is.data.frame(df_panel)
-dim(df_panel)
+Once the data has been more carefully understood the next steps will required to analyze the type of regression analysis that we would need to undertake. Some of the options can included difference in difference regression, fixed and random effects.Dummy variables will also be selected in order to test difference in intercept terms or slope coefficient, allow the intercept to have different values in each period. 
 
 
-**Anything else you consider relevant to include latter on...**
+# References 
+
+* Arindrajit Dube, 2021."Aggregate Employment Effects of Unemployment Benefits During Deep Downturns: Evidence
+from the Expiration of the Federal Pandemic Unemployment Compensation", NBER Working Paper No. 28470
+* Jeffrey M Wooldridge, 2010. "Econometric Analysis of Cross Section and Panel Data," MIT Press Books, The MIT Press, edition 2, volume 1. Retrieved from: https://ipcig.org/evaluation/apoio/Wooldridge%20-%20Cross-section%20and%20Panel%20Data.pdf
+* JP.Morgan, 2020. "Consumption Effects of Unemployment Insurance during the COVID-19 Pandemic". Retrieved from:https://www.jpmorganchase.com/institute/research/labor-markets/report-consumption-effects-of-unemployment-insurance-during-the-covid-19-pandemic
+* US Department of Labor, 2020.Significant provisions of state unemployment insurance laws effective January 2020.
+* United States Census Bureau, 2022. 'Household Pulse Survey". Retrieved from: https://www.census.gov/data/experimental-data-products/household-pulse-survey.html
+* United States Deparment of Labor 2022. 'UI replacement rate. Retrieved from: https://oui.doleta.gov/unemploy/DataDashboard.asp
+
+# Annex
+
+## Data dictionary
+
++----------+-------+--------------------------------------------+
+|Variable  | Codes | Description        |
++==========+=======+============================================+
+|Hispanic  |   0   | Hispanic|
+|                              |
+|          |   1   | Non Hispanic|    
+
++----------+-------+--------------------------------------------+
+|Other Race |   1   | White          |  
+|           |   2   | Black          |
+|           |   3   | Asian          |
+|           |   4   | Any other race |
+
++----------+-------+--------------------------------------------+
+|Education  |   1   | Less than high school|  
+|           |   2   | Some high school  |
+|           |   3   | High school grad or equiv  |
+|           |   4   | Some college no degree received|   
+|           |   5   | Associate's degree|  
+|           |   6   | Bachelor's degree |  
+|           |   7   | Graduate degree |
+
++----------+-------+---------------------------------------------+
+|Sex        |   0   | Female            |
+|           |   1   | Male              |
+
++----------+-------+---------------------------------------------+
+|p_hh       | 1-40  | Number of people in household|
+
++----------+-------+---------------------------------------------+
+|wrklossrv  |       | Recent household job loss|
+|           |   0   | No  |
+|           |   1   | Yes|
+           
++----------+-------+---------------------------------------------+           
+|anywork    |       | Employment status for last 7 days|
+|           |   0   | No  |
+|           |   1   | Yes|
+
++----------+-------+---------------------------------------------+           
+|kindwork   |       | Sector of Employment |
+|           |   1   | Government  |
+|           |   2   | Private company|
+|           |   3   | Non profit |
+|           |   4   | Self-employed|
+|           |   5   | Working in family business  |
+
++----------+-------+---------------------------------------------+           
+|rsnnowrkrv |       | Main reason for not working |
+|           |  1    | Didn't want to be employed |
+|           |  2    | Sick or caring for COVID |
+|           |  3    | Caring for children|
+|           |  4    | Caring for an elderly|
+|           |  5    | Concerned getting/spreading COVID|
+|           |  6    | Sick (no COVID)or disabled|
+|           |  7    | Retired|
+|           |  8    | Laid off due to COVID|
+|           |  9    | Employer closed temporarily due to COVID|
+|           |  10   | Employer went out of business due to COVID|
+|           |  11   | Did not have transportation to work|
+|           |  12   | Other reason  |
+
++----------+-------+--------------------------------------------+
+|UI_apply   |       | UI Apply|
+|           |   0   | No  |
+|           |   1   | Yes  |                           
+
++----------+-------+--------------------------------------------+
+|UI_recrv   |       | UI Receive|
+|           |   0   | No  |
+|           |   1   | Yes  |           
+
++-----------+-------+--------------------------------------------+
+|UI_recvnow  |       |UI Receive now |
+|            |   0   | No           |
+|            |   1   | Yes          |                               
+
++----------+-------+--------------------------------------------+
+|house      |       | Housing owned or rented|
+|           |   0   | No  |
+|           |   1   | Yes  |
+
++----------+-------+--------------------------------------------+
+|income     |       | Total household income|
+|           |   1   | Less than $25,000  |
+|           |   2   | $25,000 - $34,999 |
+|           |   3   | $35,000 - $49,999 |
+|           |   4   | $50,000 - $74,999|
+|           |   5   | $75,000 - $99,999 | 
+|           |   6   | $100,000 - $149,999|
+|           |   7   | $150,000 - $199,999|
+|           |   8   | $200,000 and above|
+
++----------+-------+--------------------------------------------+
+|Mean RR 1  |       | Replacement Ratio 1=Weighted Avg of:WBA/(Normal Hourly Wage x 40 Hrs.)|
+
++----------+-------+--------------------------------------------+
+|Mean RR 2  |       | Replacement Ratio 2=Ratio of: Weighted Avg WBA/Weighted Avg (Normal Hourly Wage x 40| Hrs.)
 
 
+## US States per region
 
-## Reference 
 
-APA Style preferred
-databases
-papers
++----------+-------------------------------------------------+
+|Region    | States 
++==========+=================================================+
+|Northeast |Connecticut, Maine, Massachusetts, New Hampshire, Rhode Island, Vermont, New Jersey, New York, Pennsylvania          | 
++----------+---------------------------------------------------+
+|South     |Delaware, District of Columbia, Florida, Georgia, Maryland, North Carolina, South Carolina, Virginia, West Virginia, Alabama, Kentucky, Mississippi, Tennessee, Arkansas, Louisiana, Oklahoma, Texas  |
 
-## Annex
-Dictionary as a table
++----------+---------------------------------------------------+
+|Midwest   |Illinois, Indiana, Michigan, Ohio, Wisconsin, Iowa, Kansas, Minnesota, Missouri, Nebraska, North Dakota, South Dakota     |  
++----------+---------------------------------------------------+
+|West      |Arizona, Colorado, Idaho, Montana, Nevada, New Mexico, Utah, Wyoming, Alaska, California, Hawaii, Oregon, Washington |  
+
