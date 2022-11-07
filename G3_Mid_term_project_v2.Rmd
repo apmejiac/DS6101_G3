@@ -441,7 +441,7 @@ e1 + geom_bar(position = "dodge",
 
 ```
 
-Per region, the West region shows the higher amount of population with less than high school certificates, while the Northeast shows a higher percentage of persons with graduate degrees. The South and West region seems to have a higher concentration of population. In the Midwest region  associate and graduate degree has the highest concentration of population.
+Per region, the West region shows the higher amount of population with less than a high school diploma. The Northeast has the highest percentage of individuals with graduate degrees. The South and West region seems to have a higher concentration of population. In the Midwest region, associate's and graduate's degrees have the highest concentration of population.
 
 ### Findings replacement ratio by region
 ```{r, results='asis'}
