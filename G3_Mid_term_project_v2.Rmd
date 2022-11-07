@@ -390,8 +390,8 @@ Evaluating the cross sectional panel, we were able to see that the panel is unba
 
 ### Findings between sex and state
 ```{r, results='asis'}
-#** Interviewed sample per sex and state**
-  
+jpeg(file="sample per sex and state.jpeg")
+
 theme_set(theme_classic())
 ss <- ggplot(df_panel2, aes(x=fct_infreq(State)))
 ss + geom_bar(aes(fill=Sex), width = 0.7) + 
@@ -400,6 +400,8 @@ ss + geom_bar(aes(fill=Sex), width = 0.7) +
        subtitle="Number of persons",
        x= 'States',
        y= 'Frequency')
+
+dev.off()
 ```
 
 When analyzing the data we were able to find that California, Texas and Florida had the higher amount of unemployed population, while South Dakota and North Dakota the lowest. Gender distribution seems to be similar across states. 
@@ -408,6 +410,8 @@ When analyzing the data we were able to find that California, Texas and Florida 
 ### Findings between age and sex
 ```{r, results='asis'}
 # **Box plot per age and state**
+jpeg(file="BoxPlotAge_Sex.jpeg")
+
 ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) + 
    geom_boxplot() +
   stat_summary(fun=mean, geom="point", shape=4)+ 
@@ -415,6 +419,7 @@ ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) +
                    x= 'Sex',
                    y= 'Age')+
               theme(legend.position = 'none')
+dev.off()
 ```
 
 Regarding age and sex, the mean age of males was higher than that of females, with no outliers visible in the dataset. 
@@ -467,6 +472,9 @@ The replacement rate is higher in the Northeast and West. The higher the replace
 
 ### Findings race by income
 ```{r, results='asis'}
+library(ggbeeswarm)
+jpeg(file="household_income_distribution.jpeg")
+
 ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
   geom_quasirandom(alpha = 0.5) + 
   theme_minimal(base_size = 13) + 
@@ -476,14 +484,14 @@ ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
   labs(y = "Income", 
        x = "Race", 
        title = "Household income distribution by largest racial group")
+
+dev.off()
 ```
 
 ### Findings between state and unemployment insurance received
 ```{r , results='asis'}
 library(gganimate)
 #Finding percentage of people that are unemployed and received the benefit
-non<-df_panel2[!is.na(df_panel2$UI_recrv),]
-
 non<-df_panel2[!is.na(df_panel2$UI_recrv),]
 
 t1<-non %>%
@@ -517,7 +525,6 @@ animate(UI_rec, renderer = gifski_renderer())
 anim_save("UI_rec.gif")
 
 dev.off()
-
 
 
 ```
