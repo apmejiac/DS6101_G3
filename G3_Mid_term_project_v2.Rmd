@@ -474,7 +474,7 @@ ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
 
 ### Findings between state and unemployment insurance received
 ```{r , results='asis'}
-
+library(gganimate)
 #Finding percentage of people that are unemployed and received the benefit
 non<-df_panel2[!is.na(df_panel2$UI_recrv),]
 
