@@ -534,7 +534,7 @@ The unemployment insurance benefit in our sample becomes evident from week 13 on
 
 # Findings and Conclusions
 
-The amount and frequency of the data in which we are working will allow to be able to avoid statistical mistakes and to be able to obtain a robust regression analysis that could provide relevant insight on unemployment. Having seen how sex and education change through the sample through state and the different percentage of unemployed receiving the benefit, using sex, education, and age as control variables will allow us in the next steps to obtain relevant conclusions that can contribute in informing employment policy in US.
+The amount of data we are working with and the frequency of observations allows us to avoid statistical mistakes and obtain a robust regression analysis that could provide relevant insight on unemployment. Having seen how sex and education change through the sample through state and the different percentage of unemployed receiving the benefit, using sex, education, and age as control variables will allow us in the next steps to obtain relevant conclusions that can contribute in informing employment policy in US.
 
 
 # Limitations
