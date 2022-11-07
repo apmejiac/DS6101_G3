@@ -469,7 +469,7 @@ ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
   scale_x_discrete(limits = c(1:4), labels =c('White', 'Black', 'Asian', 'Other')) + 
   labs(y = "Income", 
        x = "Race", 
-       title = "Household income distribution by largest racial/ethnic group")
+       title = "Household income distribution by largest racial group")
 ```
 
 ### Findings between state and unemployment insurance received
