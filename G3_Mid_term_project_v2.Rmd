@@ -390,7 +390,7 @@ Evaluating the cross sectional panel, we were able to see that the panel is bala
 
 ### Findings between sex and state
 ```{r, results='asis'}
-jpeg(file="sample per sex and state.jpeg")
+
 
 theme_set(theme_classic())
 ss <- ggplot(df_panel2, aes(x=fct_infreq(State)))
@@ -401,7 +401,7 @@ ss + geom_bar(aes(fill=Sex), width = 0.7) +
        x= 'States',
        y= 'Frequency')
 
-dev.off()
+
 ```
 
 When analyzing the data we were able to find that California, Texas and Florida had the higher amount of unemployed population, while South Dakota and North Dakota the lowest. Gender distribution seems to be similar across states. 
@@ -410,7 +410,7 @@ When analyzing the data we were able to find that California, Texas and Florida 
 ### Findings between age and sex
 ```{r, results='asis'}
 # **Box plot per age and state**
-jpeg(file="BoxPlotAge_Sex.jpeg")
+
 
 ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) + 
    geom_boxplot() +
@@ -419,7 +419,7 @@ ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) +
                    x= 'Sex',
                    y= 'Age')+
               theme(legend.position = 'none')
-dev.off()
+
 ```
 
 Regarding age and sex, the mean age of males was higher than that of females, with no outliers visible in the dataset. 
@@ -427,7 +427,7 @@ Regarding age and sex, the mean age of males was higher than that of females, wi
 ### Findings between education level and region
 ```{r, results='asis'}
 
-jpeg(file="levels_of_education_of_the_sample.jpeg")
+
 
 e1 <- ggplot(data = df_panel2,
             mapping = aes(x = Region, fill = Edu))
@@ -437,7 +437,7 @@ e1 + geom_bar(position = "dodge",
                    subtitle= 'by US region',
                    x= 'Education',
                    y= 'Proportion of the sample')
-dev.off()
+
 
 ```
 
@@ -445,7 +445,7 @@ Per region, the West region shows the higher amount of population with less than
 
 ### Findings replacement ratio by region
 ```{r, results='asis'}
-jpeg(file= "avg_replacement_ratio.jpeg")
+
 
 replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replacement Ratio 2`, fill = Region)) +
   geom_boxplot() +
@@ -463,7 +463,7 @@ replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replaceme
   labs(x = "Region", y = "Average of Replacement Ratio ", title = "Average of Replacement Ratio ", subtitle = "By Region")
 replacerate1
 
-dev.off()
+
 
 ```
 
@@ -473,7 +473,7 @@ The replacement rate is higher in the Northeast and West. The higher the replace
 ### Findings race by income
 ```{r, results='asis'}
 library(ggbeeswarm)
-jpeg(file="household_income_distribution.jpeg")
+
 
 ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
   geom_quasirandom(alpha = 0.5) + 
@@ -485,7 +485,7 @@ ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
        x = "Race", 
        title = "Household income distribution by largest racial group")
 
-dev.off()
+
 ```
 
 ### Findings between state and unemployment insurance received
@@ -512,7 +512,7 @@ t1_0<- t1 %>% left_join(t0, by= c('State', 'Week'))
 t1_0<-t1_0%>% mutate(tot = UIO + n, .after = n)
 t1_0<-t1_0%>% mutate(x = UIO /tot, .after = tot)
 
-png(file = "UI_recieved.png")
+
 #Plot
 UI_rec <- ggplot(t1_0, 
                aes(x = Week, y= x, color = State)) + 
@@ -524,7 +524,7 @@ ggplotly(UI_rec)
 animate(UI_rec, renderer = gifski_renderer())
 anim_save("UI_rec.gif")
 
-dev.off()
+
 
 
 ```
