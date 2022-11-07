@@ -529,7 +529,16 @@ anim_save("UI_rec.gif")
 
 ```
 
-The unemployment insurance benefit in our sample becomes evident from week 13 on. Rhode Island has the highest number of unemployed persons receiving the benefit, while the District of Columbia had one of the lowest. Some states like Virginia, Vermont and Washington seem to have stopped the benefit towards week 43.
+This graph breaks down the percent of unemployment insurance receipt throughout the weeks.
+Each dot represents the percent of people in the survey for each state that received unemployment
+Our data begins to captures unemployment insurance being received at week 13. This is likely due to the surge of unemployment claims in the early pandemic causing delays. There is a sharp drop between week 27(March 17 - 29) & week 28 (April 14 - April 26). Beginning the week of April 12, all essential workers in Phase 1C Tier 3 will become eligible for the vaccine.
+
+
+Sharp decline may have happened due to the expansion of eligibility for the covid vaccine; 
+April 19, 2021
+The White House announced that all people age 16 and older are eligible for the COVID-19 vaccine.
+After may 1 everyone was eligible for the vaccine; while there is no direct tested correlation it’s interesting to point out the decline and the dates of vaccine eligibility  
+Steady decline after week 40 which was taken after PUA had ended, the recording stops in September of this year where recipients are at their lowest since beginning of data collection.
 
 
 # Findings and Conclusions
