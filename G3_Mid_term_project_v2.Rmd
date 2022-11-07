@@ -422,6 +422,8 @@ Regarding age and sex, the mean age of males was higher than that of females, wi
 ### Findings between education level and region
 ```{r, results='asis'}
 
+jpeg(file="levels_of_education_of_the_sample.jpeg")
+
 e1 <- ggplot(data = df_panel2,
             mapping = aes(x = Region, fill = Edu))
 e1 + geom_bar(position = "dodge",
@@ -430,7 +432,7 @@ e1 + geom_bar(position = "dodge",
                    subtitle= 'by US region',
                    x= 'Education',
                    y= 'Proportion of the sample')
-
+dev.off()
 
 ```
 
