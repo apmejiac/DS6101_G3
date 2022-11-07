@@ -438,6 +438,8 @@ Per region, the West region shows the higher amount of population with less than
 
 ### Findings replacement ratio by region
 ```{r, results='asis'}
+jpeg(file= "avg_replacement_ratio.jpeg")
+
 replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replacement Ratio 2`, fill = Region)) +
   geom_boxplot() +
   stat_summary(fun=mean, geom="point", shape=4) +
@@ -453,6 +455,8 @@ replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replaceme
         legend.position = "none") +
   labs(x = "Region", y = "Average of Replacement Ratio ", title = "Average of Replacement Ratio ", subtitle = "By Region")
 replacerate1
+
+dev.off()
 
 ```
 
