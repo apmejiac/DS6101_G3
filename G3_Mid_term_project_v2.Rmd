@@ -559,6 +559,8 @@ from the Expiration of the Federal Pandemic Unemployment Compensation", NBER Wor
 * US Department of Labor, 2020.Significant provisions of state unemployment insurance laws effective January 2020.
 * United States Census Bureau, 2022. 'Household Pulse Survey". Retrieved from: https://www.census.gov/data/experimental-data-products/household-pulse-survey.html
 * United States Deparment of Labor 2022. 'UI replacement rate. Retrieved from: https://oui.doleta.gov/unemploy/DataDashboard.asp
+* U.S. GAO, 2022. "Unemployment Insurance: Pandemic Programs Posed Challenges, and DOL Could Better Address Customer Service and Emergency Planning."https://www.gao.gov/products/gao-22-104251
+* U.S. Department of Health & Human Services, 2022. "COVID-19 Vaccine Milestones" https://www.hhs.gov/coronavirus/covid-19-vaccines/index.html
 
 # Annex
 
