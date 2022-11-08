@@ -99,7 +99,7 @@ The key question to address then becomes:
 
 ## Why Pooled Cross section data is relevant?
 
-Pooled cross section is a data structured where random samples are obtained from the population at different points in time. Pooled Cross Sections are obtained by collecting random samples from a large population independently at different points in time. Having random samples collected independently implies that they need not be of equal size and will usually contain different statistical units at different points in time.Therefore, limiting serial correlation of residuals when regression analysis is applied. The previous is useful for a variety of purposes, including policy analysis. For example, to study the effects of an unexpected change in unemployment insurance we can choose the treatment group to be unemployed individuals from a state that has a change in unemployment compensation, while a control group could be unemployed workers from a neighboring state. Since each observation is independent, the regression model of pooled cross section is as followed:
+Pooled cross section is a data structure where random samples are obtained from the population at different points in time. Pooled Cross Sections are obtained by collecting random samples from a large population independently at different points in time. Having random samples collected independently implies that they need not be of equal size and will usually contain different statistical units at different points in time. Therefore, limiting serial correlation of residuals when regression analysis is applied. The previous is useful for a variety of purposes, including policy analysis. For example, to study the effects of an unexpected change in unemployment insurance we can choose the treatment group to be unemployed individuals from a state that has a change in unemployment compensation, while a control group could be unemployed workers from a neighboring state. Since each observation is independent, the regression model of pooled cross section is as followed:
 
  ![](C:\Users\apmej\OneDrive\Escritorio\R\pcs.png)
 
@@ -303,15 +303,23 @@ df_panel2$Edu[df_panel2$Edu==5]<-"Associate's degree" #Changing to categorical
 df_panel2$Edu[df_panel2$Edu==6]<- "Bachelor's degree" #Changing to categorical
 df_panel2$Edu[df_panel2$Edu==7]<- 'Graduate degree' #Changing to categorical
 
-df_panel2$income[df_panel2$income==1]<- 'Less than $25,000' #Changing to categorical
-df_panel2$income[df_panel2$income==2]<- '$25,000 - $34,999' #Changing to categorical
-df_panel2$income[df_panel2$income==3]<- '$35,000 - $49,999' #Changing to categorical
-df_panel2$income[df_panel2$income==4]<- '$50,000 - $74,999' #Changing to categorical
-df_panel2$income[df_panel2$income==5]<- '$75,000 - $99,999' #Changing to categorical
-df_panel2$income[df_panel2$income==6]<- '$100,000 - $149,999' #Changing to categorical
-df_panel2$income[df_panel2$income==7]<- '$150,000 - $199,999' #Changing to categorical
-df_panel2$income[df_panel2$income==8]<- '$200,000 and above' #Changing to categorical
+#df_panel2$income[df_panel2$income==1]<- 'Less than $25,000' #Changing to categorical
+#df_panel2$income[df_panel2$income==2]<- '$25,000 - $34,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==3]<- '$35,000 - $49,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==4]<- '$50,000 - $74,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==5]<- '$75,000 - $99,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==6]<- '$100,000 - $149,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==7]<- '$150,000 - $199,999' #Changing to categorical
+#df_panel2$income[df_panel2$income==8]<- '$200,000 and above' #Changing to categorical
 
+df_panel2$income2[df_panel2$income==1]<- 'Less than $25,000' #Changing to categorical
+df_panel2$income2[df_panel2$income==2]<- '$25,000 - $34,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==3]<- '$35,000 - $49,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==4]<- '$50,000 - $74,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==5]<- '$75,000 - $99,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==6]<- '$100,000 - $149,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==7]<- '$150,000 - $199,999' #Changing to categorical
+df_panel2$income2[df_panel2$income==8]<- '$200,000 and above' #Changing to categorical
 df_panel2$wrklossrv[df_panel2$wrklossrv==2]<- 0
 df_panel2$anywork[df_panel2$anywork==2]<- 0
 df_panel2$UI_apply [df_panel2$UI_apply ==2]<- 0
@@ -369,21 +377,21 @@ print('Number of people repeated in sample: ')
 N_rep
 
 #Checking panel structure
-str(df_panel2)
+#str(df_panel2)
 glimpse(df_panel2)
 xkablesummary(df_panel2, title="Summary Statistics",pos='left', bso= 'condensed')
 
 
 ```
 
-Evaluating the cross sectional panel, we were able to see that the panel is unbalanced and it has more than 3 million observations. The sample size was reduced when we eliminated the persons that had an income higher than $150,000 and that did not lose employment, given that they would not be the most vulnerable group affected by the pandemic.This reduced the sample size to close to 300 thousand observations. As it was previously mentioned, most of the people in our sample were not interviewed more than three times. Given that the characteristic of cross- sectional data solves normality, rather than focusing in doing normality tests of the data, we focused in understanding it further and the linkages that they seem to be present between variables. Taking a careful look at our data set is relevant so we can better understood the best approach for a regression analysis. The following section highlights some of the key plots 
+Evaluating the cross sectional panel, we were able to see that the panel is balanced and it has more than 3 million observations. The sample size was reduced when we eliminated the persons that had an income higher than $150,000 and that did not lose employment, given that they would not be the most vulnerable group affected by the pandemic.This reduced the sample size to close to 300 thousand observations. As it was previously mentioned, most of the people in our sample were not interviewed more than three times. Given that the characteristic of cross- sectional data solves normality, rather than focusing in doing normality tests of the data, we focused in understanding it further and the linkages that they seem to be present between variables. Taking a careful look at our data set is relevant so we can better understood the best approach for a regression analysis. The following section highlights some of the key plots 
 
 ## What can we see from our data? 
 
 ### Findings between sex and state
 ```{r, results='asis'}
-#** Interviewed sample per sex and state**
-  
+
+
 theme_set(theme_classic())
 ss <- ggplot(df_panel2, aes(x=fct_infreq(State)))
 ss + geom_bar(aes(fill=Sex), width = 0.7) + 
@@ -392,6 +400,8 @@ ss + geom_bar(aes(fill=Sex), width = 0.7) +
        subtitle="Number of persons",
        x= 'States',
        y= 'Frequency')
+
+
 ```
 
 When analyzing the data we were able to find that California, Texas and Florida had the higher amount of unemployed population, while South Dakota and North Dakota the lowest. Gender distribution seems to be similar across states. 
@@ -400,6 +410,8 @@ When analyzing the data we were able to find that California, Texas and Florida 
 ### Findings between age and sex
 ```{r, results='asis'}
 # **Box plot per age and state**
+
+
 ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) + 
    geom_boxplot() +
   stat_summary(fun=mean, geom="point", shape=4)+ 
@@ -407,12 +419,15 @@ ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) +
                    x= 'Sex',
                    y= 'Age')+
               theme(legend.position = 'none')
+
 ```
 
 Regarding age and sex, the mean age of males was higher than that of females, with no outliers visible in the dataset. 
 
 ### Findings between education level and region
 ```{r, results='asis'}
+
+
 
 e1 <- ggplot(data = df_panel2,
             mapping = aes(x = Region, fill = Edu))
@@ -426,10 +441,12 @@ e1 + geom_bar(position = "dodge",
 
 ```
 
-Per region, the West region shows the higher amount of population with less than high school certificates, while the Northeast shows a higher percentage of persons with graduate degrees. The South and West region seems to have a higher concentration of population. In the Midwest region  associate and graduate degree has the highest concentration of population.
+Per region, the West region shows the higher amount of population with less than a high school diploma. The Northeast has the highest percentage of individuals with graduate degrees. The South and West region seems to have a higher concentration of population. In the Midwest region, associate's and graduate's degrees have the highest concentration of population.
 
 ### Findings replacement ratio by region
 ```{r, results='asis'}
+
+
 replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replacement Ratio 2`, fill = Region)) +
   geom_boxplot() +
   stat_summary(fun=mean, geom="point", shape=4) +
@@ -446,22 +463,34 @@ replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replaceme
   labs(x = "Region", y = "Average of Replacement Ratio ", title = "Average of Replacement Ratio ", subtitle = "By Region")
 replacerate1
 
+
+
 ```
 
 The replacement rate is higher in the Northeast and West. The higher the replacement rates the more they can alleviate economic hardship. The south region is the one that shows the lowest replace ratio. 
 
 
-
+### Findings race by income
 ```{r, results='asis'}
-# Make a table of 
+library(ggbeeswarm)
 
-## Pending Dustin/ Nina
-###Income data graph (Fig 4.20 https://walker-data.com/census-r/exploring-us-census-data-with-visualization.html)
+
+ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
+  geom_quasirandom(alpha = 0.5) + 
+  theme_minimal(base_size = 13) + 
+  scale_color_viridis_c(guide = "none") + 
+  scale_y_discrete(limits = c(1:6), labels =c('Less than $25,000', '$25,000 - $34,999', '$35,000 - $49,999', '$50,000 - $74,999', '$75,000 - $99,999', '$100,000 - $149,999')) +
+  scale_x_discrete(limits = c(1:4), labels =c('White', 'Black', 'Asian', 'Other')) + 
+  labs(y = "Income", 
+       x = "Race", 
+       title = "Household income distribution by largest racial group")
+
+
 ```
 
 ### Findings between state and unemployment insurance received
 ```{r , results='asis'}
-
+library(gganimate)
 #Finding percentage of people that are unemployed and received the benefit
 non<-df_panel2[!is.na(df_panel2$UI_recrv),]
 
@@ -486,20 +515,35 @@ t1_0<-t1_0%>% mutate(x = UIO /tot, .after = tot)
 
 #Plot
 UI_rec <- ggplot(t1_0, 
-               aes(x = Week, y=  x, color = State)) + 
-               geom_point(aes(frame = Week))+
+               aes(x = Week, y= x, color = State)) + 
+               geom_point()+
+               transition_manual(Week)+
   labs(x = "Weeks", y = "% of unemployed persons receiving unemployment insurance", title = "Change in Unemployment Insurance received by state")
 ggplotly(UI_rec)
+
+animate(UI_rec, renderer = gifski_renderer())
+anim_save("UI_rec.gif")
+
+
 
 
 ```
 
-The unemployment insurance benefit in our sample becomes evident from week 13 on. Rhode Island has the highest number of unemployed persons receiving the benefit, while the District of Columbia had one of the lowest. Some states like Virginia, Vermont and Washington seem to have stopped the benefit towards week 43.
+This graph breaks down the percent of unemployment insurance receipt throughout the weeks.
+Each dot represents the percent of people in the survey for each state that received unemployment
+Our data begins to captures unemployment insurance being received at week 13. This is likely due to the surge of unemployment claims in the early pandemic causing delays. There is a sharp drop between week 27(March 17 - 29) & week 28 (April 14 - April 26). Beginning the week of April 12, all essential workers in Phase 1C Tier 3 will become eligible for the vaccine.
+
+
+Sharp decline may have happened due to the expansion of eligibility for the covid vaccine; 
+April 19, 2021
+The White House announced that all people age 16 and older are eligible for the COVID-19 vaccine.
+After may 1 everyone was eligible for the vaccine; while there is no direct tested correlation it’s interesting to point out the decline and the dates of vaccine eligibility  
+Steady decline after week 40 which was taken after PUA had ended, the recording stops in September of this year where recipients are at their lowest since beginning of data collection.
 
 
 # Findings and Conclusions
 
-The amount and frequency of the data in which we are working will allow to be able to avoid statistical mistakes and to be able to obtain a robust regression analysis that could provide relevant insight on unemployment. Having seen how sex and education change through the sample through state and the different percentage of unemployed receiving the benefit, using sex, education, and age as control variables will allow us in the next steps to obtain relevant conclusions that can contribute in informing employment policy in US.
+The amount of data we are working with and the frequency of observations allows us to avoid statistical mistakes and obtain a robust regression analysis that could provide relevant insight on unemployment. Having seen how sex and education change through the sample through state and the different percentage of unemployed receiving the benefit, using sex, education, and age as control variables will allow us in the next steps to obtain relevant conclusions that can contribute in informing employment policy in US.
 
 
 # Limitations
@@ -524,6 +568,8 @@ from the Expiration of the Federal Pandemic Unemployment Compensation", NBER Wor
 * US Department of Labor, 2020.Significant provisions of state unemployment insurance laws effective January 2020.
 * United States Census Bureau, 2022. 'Household Pulse Survey". Retrieved from: https://www.census.gov/data/experimental-data-products/household-pulse-survey.html
 * United States Deparment of Labor 2022. 'UI replacement rate. Retrieved from: https://oui.doleta.gov/unemploy/DataDashboard.asp
+* U.S. GAO, 2022. "Unemployment Insurance: Pandemic Programs Posed Challenges, and DOL Could Better Address Customer Service and Emergency Planning."https://www.gao.gov/products/gao-22-104251
+* U.S. Department of Health & Human Services, 2022. "COVID-19 Vaccine Milestones" https://www.hhs.gov/coronavirus/covid-19-vaccines/index.html
 
 # Annex
 
