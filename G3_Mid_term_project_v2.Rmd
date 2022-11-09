@@ -93,8 +93,8 @@ The national rate reached a previously unseen level of 14.7 percent in April 202
   
  ![](C:\Users\apmej\OneDrive\Escritorio\R\Unemployment.jpeg)
 
+At the beginning of the project and having just been able to explore the Labour Department database on Unemployment Insurance our initial question was focused on Which population segment and industries in the United States of America have seen more population dis-incentivization to return to work due to the Unemployment Insurance under the 2008 financial crisis and COVID-19 evaluating monthly information for the years 2008-2022?. However, after reviewing additional data sources that have more granular data we were able to focus on the following question:
 
-The key question to address then becomes:
 **Which population segment in the United States of America have seen more population disincentivization to return to work due to the Unemployment Insurance under COVID-19 after evaluating weekly data since 2020? **
 
 ## Why Pooled Cross section data is relevant?
@@ -521,8 +521,8 @@ UI_rec <- ggplot(t1_0,
   labs(x = "Weeks", y = "% of unemployed persons receiving unemployment insurance", title = "Change in Unemployment Insurance received by state")
 ggplotly(UI_rec)
 
-animate(UI_rec, renderer = gifski_renderer())
-anim_save("UI_rec.gif")
+#animate(UI_rec, renderer = gifski_renderer())
+#anim_save("UI_rec.gif")
 
 
 
@@ -543,7 +543,7 @@ Steady decline after week 40 which was taken after PUA had ended, the recording 
 
 # Findings and Conclusions
 
-The amount of data we are working with and the frequency of observations allows us to avoid statistical mistakes and obtain a robust regression analysis that could provide relevant insight on unemployment. Having seen how sex and education change through the sample through state and the different percentage of unemployed receiving the benefit, using sex, education, and age as control variables will allow us in the next steps to obtain relevant conclusions that can contribute in informing employment policy in US.
+The amount of data we are working with and the frequency of observations allows us to avoid statistical mistakes and obtain a robust regression analysis that could provide relevant insight on unemployment. Having seen how sex and education change through the sample through state and the different percentage of unemployed receiving the benefit, using sex, education, and age as control variables will allow us in the next steps to obtain relevant conclusions that can contribute in informing employment policy in US.Under the exploration of the current dataset we were able to clean raw data and be able to start understanding some preliminary trends between the surveyed population. However, additional analysis it is still requiered given that correlation and causality are not necesarily the same, however the dataset provides the opportunity that is able to unmask the impacts that the unemployment insurance had before and during COVID. Moreover, given that the survey its still rolling it could also provide more relevant indicators that could should if the prediction we made in our modelling are actually materializing. Although the EDA did provide us a better understanding of our data and the variables that we can potentially use as control variables in our regression analysis, we are not able to answer out SMART question at this point given that we would not be able to justify the statistical robustness of our findings. 
 
 
 # Limitations
