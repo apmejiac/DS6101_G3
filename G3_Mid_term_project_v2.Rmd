@@ -46,6 +46,11 @@ output:
 #install.packages("kableExtra")
 #install.packages('plotly')
 #install.packages('GGally')
+#install.packages('gplots')
+#install.packages('ggpubr')
+#install.packages('rstatix') 
+library(rstatix)
+library(ggpubr)
 library(plotly)
 library(kableExtra)
 library(skimr)
@@ -68,6 +73,8 @@ library(ezids)
 library(plot3D)
 library(tinytex)
 library(GGally, quietly = TRUE)
+library(gplots)
+library(gganimate)
 ```
 
 
@@ -431,7 +438,7 @@ Regarding age and sex, the mean age of males was higher than that of females, wi
 
 e1 <- ggplot(data = df_panel2,
             mapping = aes(x = Region, fill = Edu))
-e1 + geom_bar(position = "dodge",
+e1 + geom_bar(position = "stack",
              mapping = aes(y = ..prop.., group = Edu))+ 
               labs(title="Levels of education of the sample",
                    subtitle= 'by US region',
@@ -490,7 +497,7 @@ ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
 
 ### Findings between state and unemployment insurance received
 ```{r , results='asis'}
-library(gganimate)
+
 #Finding percentage of people that are unemployed and received the benefit
 non<-df_panel2[!is.na(df_panel2$UI_recrv),]
 
@@ -514,21 +521,16 @@ t1_0<-t1_0%>% mutate(x = UIO /tot, .after = tot)
 
 
 #Plot
+
 UI_rec <- ggplot(t1_0, 
-               aes(x = Week, y= x, color = State)) + 
-               geom_point()+
-               transition_manual(Week)+
+               aes(x = Week, y=  x, color = State)) + 
+               geom_point(aes(frame = Week))+
   labs(x = "Weeks", y = "% of unemployed persons receiving unemployment insurance", title = "Change in Unemployment Insurance received by state")
 ggplotly(UI_rec)
-
-#animate(UI_rec, renderer = gifski_renderer())
-#anim_save("UI_rec.gif")
-
 
 
 
 ```
-
 This graph breaks down the percent of unemployment insurance receipt throughout the weeks.
 Each dot represents the percent of people in the survey for each state that received unemployment
 Our data begins to captures unemployment insurance being received at week 13. This is likely due to the surge of unemployment claims in the early pandemic causing delays. There is a sharp drop between week 27(March 17 - 29) & week 28 (April 14 - April 26). Beginning the week of April 12, all essential workers in Phase 1C Tier 3 will become eligible for the vaccine.
@@ -539,6 +541,25 @@ April 19, 2021
 The White House announced that all people age 16 and older are eligible for the COVID-19 vaccine.
 After may 1 everyone was eligible for the vaccine; while there is no direct tested correlation it’s interesting to point out the decline and the dates of vaccine eligibility  
 Steady decline after week 40 which was taken after PUA had ended, the recording stops in September of this year where recipients are at their lowest since beginning of data collection.
+
+
+```{r , results='asis'}
+
+##  Pearson's Chi-squared test
+
+test<- chisq.test(table(df_panel2$anywork,df_panel2$UI_recrv),correct=FALSE)
+test
+
+
+```
+
+Given that the main variables in our data set are categorical we used a Chi-Square test to determine if two categorical variables (the main dependent (Employment status for last 7 days) and independent (Unemployment Insurance received)) have a significant correlation between them.
+
+H0: the variables are independent, there is no relationship between the two categorical variables. Knowing the value of one variable does not help to predict the value of the other variable
+
+H1: the variables are dependent, there is a relationship between the two categorical variables. Knowing the value of one variable helps to predict the value of the other variable
+
+We reject the null hypothesis given that the p-value is smaller than 0.05.There is a significant relationship between the employment status for last 7 days and unemployment insurance received. Therefore, knowing the value of one variable helps to predict the value of the other variable.
 
 
 # Findings and Conclusions
