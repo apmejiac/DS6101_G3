@@ -428,8 +428,7 @@ ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) +
               theme(legend.position = 'none')
 
 ```
-
-Regarding age and sex, the mean age of males was higher than that of females, with no outliers visible in the dataset. 
+The Boxplot above shows the mean age between men and women who took the survey. What s interesting to note here is that the boxplot for the men of the database is skewed left. As we can see the mean is less than the median. Meaning most men are older. In general, most survey takers' ages were in between 40 to 60 years old with no outliers. This is relevant since those who are middle aged do not expect their employment status to be as turbulent. Unlike people in the early stages of their career who can expect job loss, they are established in their lives. Meaning if they recorded job loss, it would be a significant event. 
 
 ### Findings between education level and region
 ```{r, results='asis'}
