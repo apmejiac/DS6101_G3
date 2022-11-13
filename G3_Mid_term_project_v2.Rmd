@@ -451,7 +451,9 @@ The above graph measures the survey takers by their highest education while grou
 
 What is important to point out about these results is the amount of education people have achieved. For instance, in the South, the leading three levels of education are having some high school education, less than high school education and just high school education respectively. Similarly, in the West, the leading levels of education are having less than high school education, some college education, and a Bachelor's  degree. Then, in the Northeast, we have the highest education. The leading education is a graduate degree, a bachelor's degree, then a high school degree. Lastly, in the Midwest, the highest level of education is an associates degree, followed by high school education, and then some college education. 
 
-Its important to survey the education levels of the survey takers because those with less education are at higher risks of unemployment. 
+Its important to analyze the education levels of the survey takers because those with less education are at higher risks of job loss. As seen in the graph, those who took the survey had an education level at the high school level or below. Especially in the South and West, which is where most survey takers reported being from. While already being at risk of job loss, a shut down would cause a drastic increase of job loss for the survey takers. 
+
+As we can see, the survey takers are most vulnerable and likely to apply for unemployment during the COVID-19 shut down. Therefore, they would be valuable to observe throughout time to see the effects of unemployment insurance on employment. 
 
 ### Findings replacement ratio by region
 ```{r, results='asis'}
