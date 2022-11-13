@@ -413,6 +413,8 @@ ss + geom_bar(aes(fill=Sex), width = 0.7) +
 
 For our first data visualization, we present our sample broken out by state. Because this is a raw count, the ranking of how many from each state are included in our sample track fairly closely to how the states rank in population. California, Texas, and Florida are the most represented states in our sample; they are also the three most populous states in the country. South Dakota and North Dakota are the two least represented states and they also place towards the bottom in state population rankings. Something notable is that Washington state is the fourth most represented state in our sample, but ranks only thirteenth in state population.
 
+We further break out our sample by sex for each state. There is nothing too notable to gather from this though, as the distribution of men and women in our sample is close to 50/50 for each state.
+
 
 ### Findings between age and sex
 ```{r, results='asis'}
