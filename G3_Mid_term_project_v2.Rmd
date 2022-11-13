@@ -536,16 +536,12 @@ ggplotly(UI_rec)
 
 
 ```
-This graph breaks down the percent of unemployment insurance receipt throughout the weeks.
-Each dot represents the percent of people in the survey for each state that received unemployment
-Our data begins to captures unemployment insurance being received at week 13. This is likely due to the surge of unemployment claims in the early pandemic causing delays. There is a sharp drop between week 27(March 17 - 29) & week 28 (April 14 - April 26). Beginning the week of April 12, all essential workers in Phase 1C Tier 3 will become eligible for the vaccine.
+The graph above breaks down the percent of unemployment insurance receipt throughout the weeks of the Pandemic Insurance assistance. Each dot represents the percent of people in the survey for each state that received unemployment. 
 
+Our data begins to capture unemployment insurance being received at week 13. This is likely due to the surge of unemployment claims in the early pandemic causing delays, (U.S.GAO, 2022). 
 
-Sharp decline may have happened due to the expansion of eligibility for the covid vaccine; 
-April 19, 2021
-The White House announced that all people age 16 and older are eligible for the COVID-19 vaccine.
-After may 1 everyone was eligible for the vaccine; while there is no direct tested correlation it’s interesting to point out the decline and the dates of vaccine eligibility  
-Steady decline after week 40 which was taken after PUA had ended, the recording stops in September of this year where recipients are at their lowest since beginning of data collection.
+Another note is the fact that weeks 34 to 39 are missing values. This is due to the fact that, to run the graph, the data removed all nulls. After some additional checks, we found that these weeks were recorded by the US Government as null. This could be due to various reasons but no reason was listed by the Government. 
+
 
 
 ```{r , results='asis'}
