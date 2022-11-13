@@ -447,7 +447,11 @@ e1 + geom_bar(position = "stack",
 
 ```
 
-Per region, the West region shows the higher amount of population with less than a high school diploma. The Northeast has the highest percentage of individuals with graduate degrees. The South and West region seems to have a higher concentration of population. In the Midwest region, associate's and graduate's degrees have the highest concentration of population.
+The above graph measures the survey takers by their highest education while grouping them by region. There are few important observations from this graph. The first being that most of the survey takers are in the South and the West. This makes sense as most people in the US reside in the South and West. 
+
+What is important to point out about these results is the amount of education people have achieved. For instance, in the South, the leading three levels of education are having some high school education, less than high school education and just high school education respectively. Similarly, in the West, the leading levels of education are having less than high school education, some college education, and a Bachelor's  degree. Then, in the Northeast, we have the highest education. The leading education is a graduate degree, a bachelor's degree, then a high school degree. Lastly, in the Midwest, the highest level of education is an associates degree, followed by high school education, and then some college education. 
+
+Its important to survey the education levels of the survey takers because those with less education are at higher risks of unemployment. 
 
 ### Findings replacement ratio by region
 ```{r, results='asis'}
