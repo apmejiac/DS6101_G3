@@ -542,6 +542,11 @@ Our data begins to capture unemployment insurance being received at week 13. Thi
 
 Another note is the fact that weeks 34 to 39 are missing values. This is due to the fact that, to run the graph, the data removed all nulls. After some additional checks, we found that these weeks were recorded by the US Government as null. This could be due to various reasons but no reason was listed by the Government. 
 
+Nevertheless, conclusions can still be drawn from the data. For example, the most notable point is that between week 27 and week 28, there was a sharp decline in people receiving unemployment. With such a massive decline, something significant must have happened between those weeks. By looking at the dates, one can begin to research what was happening in peoples lives that would've influenced them to stop receiving unemployment insurance. 
+
+Week 27 covers the days March 17 through March 29 and Week 28 covers April 14 through April 26. These dates are significant because in the beginning of March 29, there was an increase in COVID-19 vaccine eligibility. 
+
+Now it is important to note that the vaccine had been available for certain eligible groups since late December 2020. However, it wasn't until the Spring of 2021 that we saw significant roll out of the vaccine. Looking back at our dates, we see that week 27 ends on March 29th. This is relevant as on March 29th, a quick succession of eligibility expansions began. On March 29th, another phase of essential workers became eligible for the vaccine. Then on April 12, even more essential workers became eligible for the vaccine.  
 
 
 ```{r , results='asis'}
