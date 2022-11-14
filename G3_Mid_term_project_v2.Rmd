@@ -428,6 +428,8 @@ ggplot(aes(x=Sex, y=Age, fill= Sex), data=subset(df_panel2, !is.na(Sex))) +
               theme(legend.position = 'none')
 
 ```
+
+
 The Boxplot above shows the mean age between men and women who took the survey. What s interesting to note here is that the boxplot for the men of the database is skewed left. As we can see the mean is less than the median. Meaning most men are older. In general, most survey takers' ages were in between 40 to 60 years old with no outliers. This is relevant since those who are middle aged do not expect their employment status to be as turbulent. Unlike people in the early stages of their career who can expect job loss, they are established in their lives. Meaning if they recorded job loss, it would be a significant event. 
 
 ### Findings between education level and region
@@ -502,6 +504,7 @@ ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
 
 
 ```
+
 In this visualization we look at our sample broken out by race and income level. Looking at the bottom row of this visualization provides more information on what population segment would be disincentivized from returning to work and staying on unemployment insurance. Across every race, the lowest income level has the highest number of people. This is important for looking at the impact of unemployment insurance benefits because if more people have low incomes, they will be more likely to want to continue receiving unemployment insurance benefits. Beyond that, there are no notable differences in distributions by race; each race has a similar distribution of proportions by income.
 
 
