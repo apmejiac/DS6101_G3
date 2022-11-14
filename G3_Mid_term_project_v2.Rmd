@@ -580,7 +580,7 @@ We reject the null hypothesis given that the p-value is smaller than 0.05.There 
 The amount of data we are working with and the frequency of observations allows us to avoid statistical mistakes and obtain a robust regression analysis that could provide relevant insight on unemployment. Changes in sex, education, and age throughout the sample point to them being good control variables for the next steps in our anaysis. Having seen the importance of income and replacement ratio in the analysis presented here, these will also be important variables to examine in the next steps of our analysis.
 
 ## Additional Information
-Additional information that would greatly benefit our analysis is data on all benefits received. It would also be beneficial to add the employment rate during the covid-19 vaccine roll out. It would be useful as it can help us see a clearer picture of the incentives to return to work. 
+Additional information that would greatly benefit our analysis is data on all benefits received. It would also be beneficial to add the employment rate during the covid-19 vaccine roll out. It would be useful as it can help us see a clearer picture of the incentives to return to work. Another factor to consider is the labor force participation rate. The labor force participation rate saw a sharp drop in March 2020, but unlike the unemployment rate, it has not recovered to its pre=pandemic level. There is some reason to believe enhanced unemployment insurance benefits could have impacted the labor force participation rate, thus this data would be worthwhile to have for our analysis.
 
 ## Reimagining our Question
 Our question is:
