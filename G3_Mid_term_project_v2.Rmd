@@ -110,9 +110,9 @@ Pooled cross sections are obtained by collecting random samples from a large pop
 
 ## About the data
 
-Since April 2020, the U.S. Census Bureau, in collaboration with multiple federal agencies, held the Household Pulse Survey(HPS). The main purpose of the survey was to be able to deploy quickly and efficiently, collected data to be able to measure household experiences during the COVID-19 pandemic.
+Starting in April 2020, the U.S. Census Bureau, in collaboration with multiple federal agencies, conducted the Household Pulse Survey (HPS). The main purpose of the survey was to quickly and efficiently collect data that measures household experiences during the COVID-19 pandemic.
 
-The Survey consist of a 20-minute, online survey which is meant to assess how individuals, families, and communities are being affected by the COVID-19 pandemic. Participants are drawn from randomly selected addresses, and respondents may be asked to complete the survey up to three times to track the effect of the pandemic on households over time.The survey collects data from an average of around 97,000 respondents per week. The Survey continues measuring how the COVID-19 pandemic is impacting households across the US from a social and economic perspective. The phases were planned. Results for Phase 1 were released weekly, and results from Phases 2 and 3 were released every two weeks. The details of each data collection was as followed.
+The survey was meant to take twenty minutes 20-minute and be completed online. The goal was to be able to assess how individuals, families, and communities are being affected by the COVID-19 pandemic. Participants are drawn from randomly selected addresses and respondents may be asked to complete the survey up to three times to track the effect of the pandemic on households over time. The survey collects data from an average of around 97,000 respondents per week. The survey continues measuring how the COVID-19 pandemic is impacting households across the US from a social and economic perspective. A set number of phases were planned and results for Phase 1 were released weekly, and results from Phases 2 and 3 were released every two weeks. The details of each data collection is as follows:
 
 *	Data collection for Phase 1 of the Household Pulse Survey began on April 23, 2020 and ended on July 21, 2020.
 *	Data collection for Phase 2 of the Household Pulse Survey began on August 19, 2020 and ended October 26, 2020.
@@ -127,9 +127,9 @@ The Survey consist of a 20-minute, online survey which is meant to assess how in
 The details for the dataset can be found in the following link:
 https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html. 
 
-A complementary dataset that was also analyzed and incorporated was the Unemployment Insurance replacement rates from the Department of Labor of US available in the following link: https://oui.doleta.gov/unemploy/ui_replacement_rates.asp
+A complementary dataset we also analyzed and incorporated. This data set contains values for unemployment insurance replacement rates from the US Department of Labor. It is available in the following link: https://oui.doleta.gov/unemploy/ui_replacement_rates.asp
 
-The Replacement Rate is the ratio of the claimants' weekly benefit amount (WBA) to the claimants' average weekly wage. Two key Replacement Ratios are available:
+The replacement rate is the ratio of the claimants' weekly benefit amount (WBA) to the claimants' average weekly wage. Two key Replacement Ratios are available:
 
 *	Replacement Ratio 1 = Weighted Average of: WBA / (Normal Hourly Wage x 40 Hrs.)
 *	Replacement Ratio 2 = Ratio of:Weighted Average WBA / Weighted Average (Normal Hourly Wage x 40 Hrs.)
