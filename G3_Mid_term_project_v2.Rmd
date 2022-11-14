@@ -136,33 +136,33 @@ The replacement rate is the ratio of the claimants' weekly benefit amount (WBA) 
 
 ## Reasons for using this dataset
 
-The HPS provides many advantages in comparison to other datasets that have measured unemployment insurance(i.e: the unemployment insurance of the labor department). Among the advantages that we can mention are:
+The HPS provides many advantages in comparison to other datasets that measure unemployment insurance data (i.e: the unemployment insurance data from the Department of Labor). We list some of the advantages here:
 
-* The high frequency of the data which allows to measure employment more carefully.
-* The large sample which allows to approach towards the reality of the population.
-* The information asked allowing to understand socio-economic and geographic differences.
+* The high frequency of the data which allows us to measure employment more carefully.
+* The large sample size creates a data set that more accurately reflects the reality of the population.
+* The information asked allows us to understand socio-economic and geographical differences.
 
 Some of the initial variables we are using from the dataset include:
 
 * State
 * Sex
-* Education credentials
-* Person was working in the previous week
+* Educational attainment
+* Whether the person was working in the previous week
 * Hispanic origin
 * Race
-* Whether someone in their household experienced job loss since March 2020
+* Whether someone in one's household experienced job loss in March 2020 or later
 * Whether a person was working in the previous week
 * Home ownership and rental information
 * Income category
 * Unemployment benefit received
 
-Additionally, using the average replacement ratio will allow to further understand the motivation of workers to either return to the labor market given that with only the unemployment insurance benefits they could  not be able to truly alleviate severe economic hardship, particularly for low-wage workers. 
+Additionally, using the average replacement ratio will allow to further understand the motivation of workers' decisions to return to the labor market, given that with only the unemployment insurance benefits, they could not be able to truly alleviate severe economic hardship, particularly for low-wage workers. 
 
 We would now initiate our Exploratory Data Analysis (EDA) in the following section, considering that our previously stated research question is:
 
-* **Specific**: It provides the variables that will be evaluated, the periodicity, and scale at the State level.
-* **Measurable** The question will allow to quantify the impacts 
-* **Achievable** It can be achieve in a relative short period of time (~2 months)
+* **Specific**: It provides the variables that will be evaluated, the periodicity, and scale at the state level.
+* **Measurable** The question will allow us to quantify the impacts 
+* **Achievable** It can be achieve in a relative short period of time (~2 months) and the necessary data is available
 * **Relevant** Extremely relevant given that it can provide key information for policy makers and reduce population vulnerability
 * **Time-oriented** Given that it is focus in a short data frame the results should be ready by November 14
 
