@@ -98,13 +98,13 @@ In March 2020 the direction of the country began to change. The COVID-19 Pandemi
   
  ![](C:\Users\apmej\OneDrive\Escritorio\R\Unemployment.jpeg)
 
-At the early stages of this project, we explored the Department of Labor database on unemployment insurance. This led us to our initial question, which focused on what population segments and industries had a higher number of people disincentivezed from returning to work due to unemployment insurance benefits. This analysis would have been centered around two major economic events, the previously mentioned COVID-19 pandemic and the 2008 financisl crisis. Examining both of these events would have provided the opportunity to compare the two events and see if there were unique circumstances surrounding the COVID-19 pandemic. However, after reviewing additional data sources that contained more granular data, we were able to narrow our analysis down to the following question:
+At the early stages of this project, we explored the Department of Labor database on unemployment insurance. This led us to our initial question, which focused on what population segments and industries had a higher number of people disincentivized from returning to work due to unemployment insurance benefits. This analysis would have been centered around two major economic events, the previously mentioned COVID-19 pandemic and the 2008 financial crisis. Examining both of these events would have provided the opportunity to compare the two events and see if there were unique circumstances surrounding the COVID-19 pandemic. However, after reviewing additional data sources that contained more granular data, we were able to narrow our analysis down to the following question:
 
 **Through analysis of weekly data, which population segment of the United States of America had more individuals disincentivized to return to work due to the enhanced unemployment insurance benefits passed into law in response to the COVID-19 pandemic? **
 
 ## Why Pooled Cross section data is relevant?
 
-Pooled cross sections are obtained by collecting random samples from a large population independently and at different points in time. Having random samples collected independently implies that they need not be equal size and will usually contain different statistical units at different points in time. This limits serial correlation of residuals when regression analysis is applied. The later is useful for a variety of purposes, including policy analysis. For example, to study the effects of an unexpected change in unemployment insurance benefits, we can choose the treatment group to be unemployed individuals from a state with a change in unemployment insurance benefits, while the control group could be unemployed workers from a neighboring state. Since each observation is independent, the regression model of pooled cross section is as follows:
+Pooled cross sections are obtained by collecting random samples from a large population independently and at different points in time. Having random samples collected independently implies that they need not be equal size and will usually contain different statistical units at different points in time. This limits serial correlation of residuals when regression analysis is applied. The latter is useful for a variety of purposes, including policy analysis. For example, to study the effects of an unexpected change in unemployment insurance benefits, we can choose the treatment group to be unemployed individuals from a state with a change in unemployment insurance benefits, while the control group could be unemployed workers from a neighboring state. Since each observation is independent, the regression model of pooled cross section is as follows:
 
  ![](C:\Users\apmej\OneDrive\Escritorio\R\pcs.png)
 
@@ -389,7 +389,7 @@ xkablesummary(df_panel2, title="Summary Statistics",pos='left', bso= 'condensed'
 
 ```
 
-Evaluating the cross sectional panel, we were able to see that the panel is balanced and has more than 3 million observations. The sample size was reduced when we eliminated people with incomes higher than $150,000 and who did not lose employment. This was done because that population is not likely to be vulnerable to the effects of the pandemic.This reduced the sample size to close to 300,000 observations. As previously mentioned, most people in our sample were not interviewed more than three times. Given that the characteristic of cross- sectional data solves the normality problem, rather than focusing on doing normality tests of the data, we focus on understanding the data further and understanding the linkages that seem to be present between variables. Taking a careful look at our data set is relevant so we can better understand the best approach for a regression analysis. The following section highlights some of the key plots.
+Evaluating the cross-sectional panel, we were able to see that the panel is balanced and has more than 3 million observations. The sample size was reduced when we eliminated people with incomes higher than $150,000 and who did not lose employment. This was done because that population is not likely to be vulnerable to the effects of the pandemic. This reduced the sample size to close to 300,000 observations. As previously mentioned, most people in our sample were not interviewed more than three times. Given that the characteristic of cross- sectional data solves the normality problem, rather than focusing on doing normality tests of the data, we focus on understanding the data further and understanding the linkages that seem to be present between variables. Taking a careful look at our data set is relevant so we can better understand the best approach for a regression analysis. The following section highlights some of the key plots.
 
 ## What can we see from our data? 
 
@@ -409,7 +409,7 @@ ss + geom_bar(aes(fill=Sex), width = 0.7) +
 
 ```
 
-For our first data visualization, we present our sample broken out by state. Because this is a raw count, the ranking of how many from each state are included in our sample track fairly closely to how the states rank in population. California, Texas, and Florida are the most represented states in our sample; they are also the three most populous states in the country. South Dakota and North Dakota are the two least represented states and they also place towards the bottom in state population rankings. Something notable is that Washington state is the fourth most represented state in our sample, but ranks only thirteenth in state population.
+For our first data visualization, we present our sample broken out by state. Because this is a raw count, the ranking of how many from each state are included in our sample track fairly closely to how the states rank in population. California, Texas, and Florida are the most represented states in our sample; they are also the three most populous states in the country. South Dakota and North Dakota are the two least represented states, and they also place towards the bottom in state population rankings. Something notable is that Washington state is the fourth most represented state in our sample but ranks only thirteenth in state population.
 
 We further break out our sample by sex for each state. There is nothing too notable to gather from this though, as the distribution of men and women in our sample is close to 50/50 for each state.
 
@@ -482,7 +482,7 @@ This visualization presents some of the most compelling evidence for what popula
 
 In our visualization, we use the same regions from the previous visualization to examine average replacement ratios. Each observation in this visualization is the average replacement ratio for a state. By looking at the mean average replacement ratios, we can see that states in the northeast and west tend to have higher replacement ratios. Although, this is a little complicated because the median average replacement ratio for the west region is only slightly larger than that of the midwest. The south though undeniably has the lowest average replacement ratios of any region. The interpretation of all this information is that individuals who live in states in the northeast region may be more incentivized to stay on unemployment insurance compared to individuals in states categorized in different regions. Individuals in states in the south have the least incentive to stay on unemployment insurance compared to individuals who live in states in other regions.
 
-It should noted that all of the average replacement ratios are below one. While there is variation across states that can impact incentivization to work, because every ratio is below one, individuals will continue to miss out on potential earnings by not rejoining the labor force. This is an important observation to keep in mind when we think about the overall impact of unemployment insurance benefits.
+It should noted be that all of the average replacement ratios are below one. While there is variation across states that can impact incentivization to work, because every ratio is below one, individuals will continue to miss out on potential earnings by not rejoining the labor force. This is an important observation to keep in mind when we think about the overall impact of unemployment insurance benefits.
 
 
 ### Findings race by income
@@ -502,6 +502,8 @@ ggplot(df_panel2, aes(y = income, x = Other_race, color = Other_race)) +
 
 
 ```
+In this visualization we look at our sample broken out by race and income level. Looking at the bottom row of this visualization provides more information on what population segment would be disincentivized from returning to work and staying on unemployment insurance. Across every race, the lowest income level has the highest number of people. This is important for looking at the impact of unemployment insurance benefits because if more people have low incomes, they will be more likely to want to continue receiving unemployment insurance benefits. Beyond that, there are no notable differences in distributions by race; each race has a similar distribution of proportions by income.
+
 
 ### Findings between state and unemployment insurance received
 ```{r , results='asis'}
