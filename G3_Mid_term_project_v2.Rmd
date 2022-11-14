@@ -475,11 +475,14 @@ replacerate1 <- ggplot(df_panel2, aes(x=Region, y = `Average of Sum of Replaceme
   labs(x = "Region", y = "Average of Replacement Ratio ", title = "Average of Replacement Ratio ", subtitle = "By Region")
 replacerate1
 
-This visualization presents some of the more compelling evidence for what population segment may have been disincentivized to work. To give some background on what is shown in this visualization, I will explain what the replacement ratio is and the significance of it.
 
 ```
 
-The replacement rate is higher in the Northeast and West. The higher the replacement rates the more they can alleviate economic hardship. The south region is the one that shows the lowest replace ratio. 
+This visualization presents some of the most compelling evidence for what population segment may have been disincentivized to work. To give some background on what is shown in this visualization, I explain what the replacement ratio is and the significance of it. Definitionally, the replacement ratio is one's weekly unemployment insurance benefit divided by regular weekly earnings. This produces a decimal that can be interpreted to mean the percent of one's wages that are being replaced by unemployment insurance. A higher value means more earnings are being replaced and a lower value means less earnings are being replaced. This is important for our analysis because if someone has a higher replacement ratio, they would be expected to stay on unemployment insurance longer. This is because they are missing out on a lower percentage of wages by remaining out of the labor market.
+
+In our visualization, we use the same regions from the previous visualization to examine average replacement ratios. Each observation in this visualization is the average replacement ratio for a state. By looking at the mean average replacement ratios, we can see that states in the northeast and west tend to have higher replacement ratios. Although, this is a little complicated because the median average replacement ratio for the west region is only slightly larger than that of the midwest. The south though undeniably has the lowest average replacement ratios of any region. The interpretation of all this information is that individuals who live in states in the northeast region may be more incentivized to stay on unemployment insurance compared to individuals in states categorized in different regions. Individuals in states in the south have the least incentive to stay on unemployment insurance compared to individuals who live in states in other regions.
+
+It should noted that all of the average replacement ratios are below one. While there is variation across states that can impact incentivization to work, because every ratio is below one, individuals will continue to miss out on potential earnings by not rejoining the labor force. This is an important observation to keep in mind when we think about the overall impact of unemployment insurance benefits.
 
 
 ### Findings race by income
